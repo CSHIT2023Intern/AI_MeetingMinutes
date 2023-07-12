@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>上傳 MP3 檔案並轉換為 WAV</h1>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <input type="submit" value="上傳">
+    </form>
+
+    <?php
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $uploadDir = 'upload/'; // 指定要保存文件的目录
+
+        // 确保 "upload" 文件夹存在
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0777, true);
+        }
+
+        $targetFile = $uploadDir . basename($_FILES["file"]["name"]);
+        $uploadSuccess = move_uploaded_file($_FILES["file"]["tmp_name"], $targetFile);
+
+        if ($uploadSuccess) {
+            echo "文件上传成功！";
+        } else {
+            echo "文件上传失败。";
+        }
+    }
+    ?>
+</body>
+
+</html>

@@ -5,87 +5,7 @@ from pydub import AudioSegment
 import os
 from trans import transcribe_audio
 from Summary import generate_summary
-import pyaudio
-import wave
-import threading
-from datetime import datetime
-import sys
-
 ALLOWED_EXTENSIONS = ['.wav', '.m4a', '.mp3']
-
-chunk = 1024  # 记录声音的样本区块大小
-sample_format = pyaudio.paInt16  # 樣本格式
-channels = 2  # 声道数量
-fs = 44100  # 取样频率
-seconds = 5  # 录音秒数
-frames = []
-run = False
-name = ''
-ok = False
-
-
-def recording():
-    global run, name, ok, frames
-    while True:
-        event.wait()  # 等待事件被触发
-        event.clear()  # 触发后将事件回归原本状态
-        run = True  # 设置 run 为 True 表示开始录音
-        print('开始录音...')
-        p = pyaudio.PyAudio()  # 建立 pyaudio 对象
-        stream = p.open(format=sample_format, channels=channels,
-                        rate=fs, frames_per_buffer=chunk, input=True)
-        frames = []
-        while run:
-            data = stream.read(chunk)
-            frames.append(data)  # 将声音记录到列表中
-        print('停止录音')
-        stream.stop_stream()  # 停止录音
-        stream.close()  # 关闭串流
-        p.terminate()
-        event2.wait()  # 等待事件被触发
-        event2.clear()  # 触发后将事件回归原本状态
-        # 如果存档按下确定，表示要保存
-        if ok:
-            current_datetime = datetime.now().strftime("%Y%m%d_%H%M%S")
-            file_name = f"會議記錄RC_{current_datetime}.wav"
-            folder_name = "Final"
-            if not os.path.exists(folder_name):
-                os.makedirs(folder_name)
-            file_path = os.path.join(folder_name, file_name)
-            wf = wave.open(file_path, 'wb')  # 打开声音记录文件
-            wf.setnchannels(channels)  # 设置声道
-            wf.setsampwidth(p.get_sample_size(sample_format))  # 设置格式
-            wf.setframerate(fs)  # 设置取样频率
-            wf.writeframes(b''.join(frames))  # 存档
-            wf.close()
-        else:
-            pass
-
-
-event = threading.Event()  # 注册录音事件
-event2 = threading.Event()  # 注册停止录音事件
-record = threading.Thread(target=recording)  # 将录音的部分放入 threading 里执行
-record.start()
-
-
-def start_record_click():
-    log_label.config(text="錄音中")
-    # 禁用"開始錄音"按钮
-    startRC_button.config(state=tk.DISABLED)
-    endRC_button.config(state=tk.NORMAL)
-    upload_button.config(state=tk.DISABLED)
-    event.set()  # 触发录音开始事件
-
-
-def end_record_click():
-    global run, name, ok
-    log_label.config(text="錄音結束已存檔")
-    startRC_button.config(state=tk.NORMAL)  # 重新启用"開始錄音"按钮
-    endRC_button.config(state=tk.DISABLED)
-    upload_button.config(state=tk.NORMAL)
-    run = False  # 设置 run 为 False 停止录音循环
-    ok = True
-    event2.set()  # 触发录音停止事件
 
 
 def convert_to_wav(input_file, output_dir):
@@ -156,53 +76,34 @@ def browse_file():
             log_label.config(text="上傳檔案不符合格式，請重新上傳")
 
 
-# def transcribe_button_click():
-#     # 轉錄上傳的檔案
-#     uploaded_file = 'C:\\users\\user\\Desktop\\112\\20230707-1\\音檔轉文字\\TransFile\\test.wav'
-#     transcribe_audio(uploaded_file)
-
-#     log_label.config(text="轉錄完成")
 def transcribe_button_click():
-    # 選擇上傳的檔案
-    file_path = filedialog.askopenfilename()
-    if file_path:
-        # 轉錄上傳的檔案
-        transcribe_audio(file_path)
+    # 轉錄上傳的檔案
+    uploaded_file = 'C:\\users\\user\\Desktop\\112\\20230707-1\\音檔轉文字\\TransFile\\test.wav'
+    transcribe_audio(uploaded_file)
 
-        log_label.config(text="轉錄完成")
-    else:
-        log_label.config(text="未選擇檔案")
+    log_label.config(text="轉錄完成")
 
 
 def exit_program():
+
     # 删除存放上传文件的文件夹
     upload_dir = 'C:\\users\\user\\Desktop\\112\\20230707-1\\音檔轉文字\\UpLoadFile'
-    if os.path.exists(upload_dir):
-        shutil.rmtree(upload_dir)
+    shutil.rmtree(upload_dir)
 
     # 删除存放转换后文件的文件夹
     converted_dir = 'C:\\users\\user\\Desktop\\112\\20230707-1\\音檔轉文字\\TransFile'
-    if os.path.exists(converted_dir):
-        shutil.rmtree(converted_dir)
+    shutil.rmtree(converted_dir)
 
     # 删除存放转换后文件的TXT文件夹
     converted_dir = 'C:\\users\\user\\Desktop\\112\\20230707-1\\音檔轉文字\\OutputTxt'
-    if os.path.exists(converted_dir):
-        shutil.rmtree(converted_dir)
+    shutil.rmtree(converted_dir)
 
-    # 删除存放转换后文件的doc文件夹
-    converted_dir = 'C:\\users\\user\\Desktop\\112\\20230707-1\\音檔轉文字\\OutputWord'
-    if os.path.exists(converted_dir):
-        shutil.rmtree(converted_dir)
+    # # 删除存放转换后文件的doc文件夹
+    # converted_dir = 'C:\\users\\user\\Desktop\\112\\20230707-1\\音檔轉文字\\OutputWord'
+    # shutil.rmtree(converted_dir)
 
     log_label.config(text="程式已關閉")
-    # threading.Thread.join()
-    # 關閉視窗
-    # root.destroy()
-    # # 安全退出程式
-    # sys.exit()
-    # 強制退出
-    os._exit(0)
+    root.destroy()
 
     # # 清空存放上傳檔案的資料夾
     # upload_dir = 'C:\\users\\user\\Desktop\\112\\20230707-1\\音檔轉文字\\UpLoadFile'
@@ -246,7 +147,7 @@ x = (screen_width // 2) - (200 // 2)
 y = (screen_height // 2) - (200 // 2)
 
 # 設定視窗位置
-root.geometry(f"400x100+{x}+{y}")
+root.geometry(f"200x100+{x}+{y}")
 
 # 建立一個框架
 # frame = tk.Frame(root)
@@ -265,23 +166,6 @@ log_label.pack(pady=20)
 # 建立一個框架用於放置按鈕
 button_frame = tk.Frame(root)
 button_frame.pack()
-
-# 建立一個按鈕，當點擊時觸發 browse_file 函式
-startRC_button = tk.Button(button_frame, text="開始錄音",
-                           command=start_record_click)
-startRC_button.pack(side=tk.LEFT)
-
-# 建立一個框架用於留白
-spacer_frame = tk.Frame(button_frame, width=10)
-spacer_frame.pack(side=tk.LEFT)
-
-# 建立一個按鈕，當點擊時觸發 browse_file 函式
-endRC_button = tk.Button(button_frame, text="停止錄音", command=end_record_click)
-endRC_button.pack(side=tk.LEFT)
-
-# 建立一個框架用於留白
-spacer_frame = tk.Frame(button_frame, width=10)
-spacer_frame.pack(side=tk.LEFT)
 
 # 建立一個按鈕，當點擊時觸發 browse_file 函式
 upload_button = tk.Button(button_frame, text="上傳檔案", command=browse_file)
