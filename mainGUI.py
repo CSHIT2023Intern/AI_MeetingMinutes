@@ -1,15 +1,18 @@
-import tkinter as tk
-from tkinter import filedialog
-import shutil
-from pydub import AudioSegment
 import os
-from trans import transcribe_audio
-from Summary import generate_summary
+import sys
+import shutil
+import threading
+
+from pydub import AudioSegment
 import pyaudio
 import wave
-import threading
+
+import tkinter as tk
+from tkinter import filedialog
 from datetime import datetime
-import sys
+
+from trans import transcribe_audio
+from Summary import generate_summary
 
 ALLOWED_EXTENSIONS = ['.wav', '.m4a', '.mp3']
 
@@ -246,7 +249,7 @@ x = (screen_width // 2) - (200 // 2)
 y = (screen_height // 2) - (200 // 2)
 
 # 設定視窗位置
-root.geometry(f"400x100+{x}+{y}")
+root.geometry(f"400x200+{x}+{y}")
 
 # 建立一個框架
 # frame = tk.Frame(root)
@@ -258,8 +261,8 @@ root.geometry(f"400x100+{x}+{y}")
 # log_text.pack()
 
 # 建立一個 Label 元件用於顯示訊息
-log_label = tk.Label(root, height=1, wraplength=180)
-log_label.config(text="歡迎")  # 設置預設內容為「歡迎」
+log_label = tk.Label(root, height=5, wraplength=180)
+log_label.config(text="歡迎\n 如果是wav檔名可以直接進行逐字稿轉換")  # 設置預設內容為「歡迎」
 log_label.pack(pady=20)
 
 # 建立一個框架用於放置按鈕
