@@ -1,0 +1,40 @@
+#更新pip
+pip install --upgrade pip
+
+#音訊
+#pydub
+pip install pydub
+pip install --upgrade pytube
+
+#PyAudio
+pip install PyAudio
+
+#ffmpeg
+pip install ffmpeg
+
+#語音轉文字
+#whisper
+pip install git+https://github.com/openai/whisper.git
+pip -q install git+https://github.com/openai/whisper.git
+pip install --upgrade --no-deps --force-reinstall git+https://github.com/openai/whisper.git
+
+#文字檔
+pip install python-docx
+
+#文字摘要
+#openai
+pip install openai
+Azure OpenAI:
+Endpoint: https://cshitinternopenai.openai.azure.com/
+Key: 0be4adcd512d4b09b7e44d50325f4bf9
+engine="CSHITIntern"
+api_version = "2023-03-15-preview"
+
+#介面
+#tkinter
+pip install tk
+python -m tkinter
+pip install tkinter
+
+#日期時間
+pip install DateTime
