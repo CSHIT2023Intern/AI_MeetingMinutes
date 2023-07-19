@@ -4,7 +4,6 @@ pip install --upgrade pip
 #音訊
 #pydub
 pip install pydub
-pip install --upgrade pytube
 
 #PyAudio
 pip install PyAudio
@@ -36,5 +35,8 @@ pip install tk
 python -m tkinter
 pip install tkinter
 
-#日期時間
-pip install DateTime
+pip install flask
+
+Azure Speech Service:
+#Region: eastasia
+#Key: c9d3e6d440214af3bc175d4c31809a44
