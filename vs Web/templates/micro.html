@@ -1,0 +1,119 @@
+<!-- 麥克風即時語音 -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/micro.css') }}">
+    <title>Document</title>
+</head>
+
+<!-- 第一種作法 優點:不會換頁 -->
+
+<body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">語音轉文字</a>
+            <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
+                aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button> -->
+            <div class="collapse navbar-collapse" id="navbarScroll">
+                <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Link
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled">Link</a>
+                    </li>
+                </ul>
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+    <div id="div1">
+        <form id="form" action="/micro" method="post">
+            <input type="submit" name="send" id="" value="開始錄音" class="btn btn-success">
+            <p id="start"></p>
+        </form>
+        <p>以下是您所產生的摘要重點:</p>
+        <p id="answer"></p>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('#form').submit(function (e) {
+                e.preventDefault();
+                var send = document.getElementById('send')
+                var answer = document.getElementById('answer')
+                $('#start').text('開始錄音')
+                $.ajax({
+                    url: "/micro", /*data要傳送的地方url*/
+                    type: "POST",  /*通常會用POST*/
+                    data: {
+                        send: "開始錄音"
+                    },  /*傳送的值（json格式），從輸入的地方得到*/
+                    dataType: "json", /*預計從server回傳的格式*/
+                    // contentType: 'application/json', /*傳給server的格式*/
+                    /*result为後端函数回傳的json*/
+                    success: function (data) {
+                        $('#answer').text(data['answer'])
+                        console.log(data)
+                    }
+                });
+            })
+        });
+    </script>
+</body>
+
+
+<!-- 第二種作法 缺點會跳頁顯示 -->
+<!-- <body>
+    <div id="div1">
+        {% if text == ""%}
+        <<form id="form" method="post"> -
+        <form id="form" action="/micro" method="post">
+            <!-- <input type="label" name="data" id=""> --
+            <input type="submit" name="send" id="" value="開始錄音">
+            <p id="start"></p>
+            <-- <p><label for="" id="answer"></label></p> --
+        </form>
+        {% else %} <!-將所要回傳後換頁寫的html、值都要寫在這個下面--
+        <p>以下是您所產生的摘要重點:</p>
+        <div id="format">
+            <p id="answer">{{text}}</p>
+        </div>
+        {% endif%}
+        <!-如果有用if開頭就要有endif結尾-
+    </div>
+    <!- 範例 -->
+<!-- {{user_template}} love Flask -
+</body> -->
+
+</html>
