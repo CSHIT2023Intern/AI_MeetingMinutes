@@ -73,28 +73,6 @@
         var filevalue = document.getElementById('data');
         var file
         filevalue.addEventListener("change", function (event) {
-            // var path = event.target.value;
-            // console.log(path)
-            // console.log(this.files[0])
-            // function getObjectURL(file) {
-            //     var url = null;
-            //     if (window.createObjectURL != undefined) {
-            //         url = window.createObjectURL(file || Blob)
-            //         decodeurl = decodeURIComponent(url)
-            //     } else if (window.URL != undefined) {
-            //         url = window.URL.createObjectURL(file || Blob)
-            //         decodeurl = decodeURIComponent(url)
-            //     } else if (window.webkitURL != undefined) {
-            //         url = window.webkitURL.createObjectURL(file || Blob)
-            //         decodeurl = decodeURIComponent(url)
-            //     }
-
-            //     return decodeurl
-            // }
-
-            // var objURL = getObjectURL(this.files[0])
-            // console.log(objURL)
-
             const fileInput = document.getElementById("data");
             file = event.target.files[0];
             console.log("文件路徑:", file.name);

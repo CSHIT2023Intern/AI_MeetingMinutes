@@ -57,12 +57,12 @@ def upload():
             if First_file.endswith(".mp3"):
                 
                 # 輸入mp3的路徑
-                mp3_file_path = 'D:\\中山醫實習\\專案\\Practice\\video\\'+First_file
+                mp3_file_path = 'D:\\中山醫實習\\SourceCode\\AI_MeetingMinutes\\vs Web\\video\\'+First_file
                 # mp3_file_path = os.path.join(file_path,file_name)
 
 
                 # 輸出wav檔案路徑
-                wav_file_path = 'D:\\中山醫實習\\專案\\Practice\\video\\'+First_Name+'.wav'
+                wav_file_path = 'D:\\中山醫實習\\SourceCode\\AI_MeetingMinutes\\vs Web\\video\\'+First_Name+'.wav'
                 # wav_file_path = +First_Name+'.wav'
 
                 def mp3_to_wav(mp3_file, wav_file):
@@ -76,7 +76,7 @@ def upload():
                  # 呼叫函式執行轉換
                 mp3_to_wav(mp3_file_path, wav_file_path)
 
-            file = speechrec.AudioFile('D:\\中山醫實習\\專案\\Practice\\video\\'+First_Name+'.wav')
+            file = speechrec.AudioFile('D:\\中山醫實習\\SourceCode\\AI_MeetingMinutes\\vs Web\\video\\'+First_Name+'.wav')
             with file as wav_file:
                 audio = sperec.record(wav_file)
 
@@ -92,7 +92,7 @@ def upload():
             txt = ' '.join(text)
 
             #將檔案放入的路徑為
-            ffpath = "D:\\中山醫實習\\專案\\Practice\\txt\\"
+            ffpath = "D:\\中山醫實習\\SourceCode\\AI_MeetingMinutes\\vs Web\\txt"
 
             # 讀取今天的日期
             today = date.today()
@@ -167,12 +167,12 @@ def micro():
                 ])
 
             #將檔案放入的路徑為
-            ffpath = "D:\\中山醫實習\\專案\\Practice\\"
+            ffpath = "D:\\中山醫實習\\SourceCode\\AI_MeetingMinutes\\vs Web\\txt"
 
             #判斷是否已經存在了
             if not os.path.exists(ffpath):
                 os.makedirs(ffpath)
-            ffname = os.path.join(ffpath,'文字檔'+'speech1'+todaySpeech+'.txt') #將輸出的資料命名為 "output.txt"
+            ffname = os.path.join(ffpath,'錄音檔'+'speech1'+todaySpeech+'.txt') #將輸出的資料命名為 "output.txt"
 
             with open(ffname,"w",encoding='utf-8') as file: #寫入檔案到資料夾中
                 file.write(response['choices'][0]['message']['content'])
