@@ -5,7 +5,7 @@ import speech_recognition as sr
 output_docx_path = ""
 
 
-def transcribe_audio(input_file, Wordfile):
+def transcribe_audio(input_file):
     global output_docx_path
 
     # 建立 Recognizer 物件
@@ -20,7 +20,7 @@ def transcribe_audio(input_file, Wordfile):
         transcription = recognizer.recognize_google(
             audio_data, language="zh-TW")
 
-        output_word_folder = os.path.join(Wordfile, "逐字稿")
+        output_word_folder = "OutputWord"
         # 檢查轉換檔案資料夾是否存在，若不存在則建立資料夾
         if not os.path.exists(output_word_folder):
             os.makedirs(output_word_folder)

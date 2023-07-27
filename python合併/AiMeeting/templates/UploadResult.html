@@ -6,6 +6,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='StylesUpload.css') }}">
     <title>檔案摘要結果</title>
 </head>
 
@@ -33,6 +36,12 @@
     <div>
         <p>以下是您所產生的摘要重點:</p>
         <p>{{text}}</p>
+    </div>
+    <div>
+        <button type="button" class="btn btn-secondary" id="" onclick="window.location.href='/'">首頁</button>
+        <button type="button" class="btn btn-secondary" id="" onclick="window.location.href='recording'">錄音頁</button>
+        <button type="button" class="btn btn-secondary" id=""
+            onclick="window.location.href='upload_select'">上傳頁</button>
     </div>
 </body>
 

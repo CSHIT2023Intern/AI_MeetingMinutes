@@ -1,0 +1,48 @@
+<!-- 上傳檔案摘要 -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='UploadIndex.css') }}">
+    <title>檔案摘要結果</title>
+</head>
+
+<body>
+    <div>
+        <form action="" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" accept=".wav, .mp3">
+            <input type="submit" value="上傳檔案">
+        </form>
+    </div>
+    <p>
+        選擇已存檔錄音
+    <p>
+    <div>
+        <form action="{{ url_for('upload_select') }}" method="POST">
+            <select name="selected_wav_file" id="selectedWavFile">
+                {% for file in wav_files %}
+                <option value="{{ file.url }}">{{ file.name }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">開始摘要</button>
+        </form>
+    </div>
+
+    <div>
+        <p>以下是您所產生的摘要重點:</p>
+        <p>{{text}}</p>
+    </div>
+    <div>
+        <button type="button" class="btn btn-secondary" id="" onclick="window.location.href='/'">首頁</button>
+        <button type="button" class="btn btn-secondary" id="" onclick="window.location.href='recording'">錄音頁</button>
+        <button type="button" class="btn btn-secondary" id=""
+            onclick="window.location.href='upload_select'">上傳頁</button>
+    </div>
+</body>
+
+</html>

@@ -6,7 +6,7 @@ import whisper
 def transcribe_audio(input_file):
     # 載入模型
     # large會標點符號但很慢 #medium最少要用這個
-    model = whisper.load_model("tiny")
+    model = whisper.load_model("base")
 
     # 進行轉錄
     result = model.transcribe(input_file)

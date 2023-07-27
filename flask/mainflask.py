@@ -2,7 +2,7 @@ import os
 from datetime import datetime
 from werkzeug.utils import secure_filename
 from flask import Flask, request, redirect, url_for, send_from_directory, render_template, jsonify
-from trans import transcribe_audio
+from transs import transcribe_audio
 from summary import generate_summary
 
 app = Flask(__name__)
@@ -73,6 +73,7 @@ def generate_summary_click():
 @app.route('/select_summary_file', methods=['POST'])
 def select_summary_file():
     selected_file = request.form.get('selected_wav_file')
+    print(selected_file)
     wordfile = transcribe_audio(selected_file)
     output = r"C:\users\user\Desktop\112\20230707-1\音檔轉文字\flask\final"
     generate_summary(wordfile, output)

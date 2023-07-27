@@ -9,6 +9,12 @@
 </head>
 
 <body>
+    <h1>歡迎</h1>
+    <p>請錄音或上傳音訊檔後進行摘要</p>
+    <form action="" method="post" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <input type="submit" value="上傳檔案">
+    </form>
     <h1>選擇已存檔錄音</h1>
     <form action="{{ url_for('select_summary_file') }}" method="POST">
         <select name="selected_wav_file" id="selectedWavFile">

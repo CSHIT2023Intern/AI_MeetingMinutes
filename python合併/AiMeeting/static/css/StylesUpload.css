@@ -1,0 +1,82 @@
+/* StylesUpload.css */
+
+/* 背景 */
+body {
+    background-color: #f8f9fa;
+}
+
+/* 標題樣式 */
+h2 {
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* 表單樣式 */
+form {
+    margin-bottom: 20px;
+}
+
+form label {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+form label:hover {
+    background-color: #0056b3;
+}
+
+
+
+/* 下拉選單樣式 */
+.selectpicker {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* 摘要結果樣式 */
+p {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #333;
+}
+
+/* 首頁按鈕樣式 */
+button.btn-secondary {
+    margin-right: 10px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button.btn-secondary:hover {
+    background-color: #555;
+}
+
+/* 頁面容器樣式 */
+.container {
+    padding: 20px;
+}
+
+/* 行和列樣式 */
+.row {
+    margin-bottom: 30px;
+}
+
+/* 垂直居中 */
+.justify-content-center {
+    align-items: center;
+}
+
+/* 水平居中 */
+.text-center {
+    text-align: center;
+}

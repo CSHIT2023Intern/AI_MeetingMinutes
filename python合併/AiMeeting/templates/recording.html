@@ -1,0 +1,66 @@
+<!-- 錄音後摘要 -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='StylesRecording.css') }}">
+    <title>錄音摘要結果</title>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center">
+                <h2 class="mb-4">錄音摘要結果</h2>
+                <hr class="mb-4">
+                <div class="d-flex justify-content-between mb-4">
+                    <form action="/start" method="post">
+                        <input type="submit" value="開始錄音" class="btn btn-primary btn-lg">
+                    </form>
+                    <form action="/stop" method="post">
+                        <input type="submit" value="停止錄音" class="btn btn-primary btn-lg">
+                    </form>
+                </div>
+                <p class="mb-3">選擇已存檔錄音:</p>
+                <form action="{{ url_for('recording') }}" method="POST">
+                    <div class="input-group mb-3">
+                        <select name="selected_wav_file" id="selectedWavFile" class="form-control">
+                            {% for file in wav_files %}
+                            <option value="{{ file.url }}">{{ file.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-primary">開始摘要</button>
+                            <img src="{{ url_for('static', filename='pict.png')}}" id="rotate" alt="" class="img_rotate"
+                                width="30" height="30">
+                        </div>
+                    </div>
+                </form>
+                <div>
+                    <p class="mt-4">以下是您所產生的摘要重點:</p>
+                    <img src="{{ url_for('static', filename='pict.png')}}" id="rotate" alt="" class="img_rotate"
+                        width="30" height="30">
+                    <p>{{text}}</p>
+                </div>
+                <div class="mt-4">
+                    <button type="button" class="btn btn-secondary mr-3" onclick="window.location.href='/'">首頁</button>
+                    <button type="button" class="btn btn-secondary mr-3"
+                        onclick="window.location.href='recording'">錄音頁</button>
+                    <button type="button" class="btn btn-secondary"
+                        onclick="window.location.href='upload_select'">上傳頁</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

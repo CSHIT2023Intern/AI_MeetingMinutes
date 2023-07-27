@@ -14,7 +14,7 @@ import wave
 
 import trans
 import transs
-import transss
+# import transss
 from summary import generate_summary
 
 record_folder = ""
@@ -119,6 +119,9 @@ def generate_summary_button_click():
         # speech_recognition_google
         transs.transcribe_audio(selected_file_path, OutputWordFile)
 
+        # speech_recognition_whisper
+        # transs1.transcribe_audio(selected_file_path, OutputWordFile)
+
         # azure speech_recognition
         # transss.transcribe_audio(selected_file_path, OutputWordFile)
         log_label.config(text="語音轉文字完成!")
@@ -137,6 +140,9 @@ def generate_summary_button_click():
             # speech_recognition_google
             transs.transcribe_audio(selected_file_path, OutputWordFile)
 
+            # speech_recognition_whisper
+            # transs1.transcribe_audio(selected_file_path, OutputWordFile)
+
             # azure speech_recognition
             # transss.transcribe_audio(selected_file_path, OutputWordFile)
 
@@ -149,6 +155,9 @@ def generate_summary_button_click():
 
     # 讀取speech_recognition_google逐字稿路徑
     OutputWord = transs.output_docx_path
+
+    # 讀取speech_recognition_whisper逐字稿路徑
+    # OutputWord = transs1.output_docx_path
 
     # 讀取azure speech_recognition逐字稿路徑
     # OutputWord = transss.output_docx_path
