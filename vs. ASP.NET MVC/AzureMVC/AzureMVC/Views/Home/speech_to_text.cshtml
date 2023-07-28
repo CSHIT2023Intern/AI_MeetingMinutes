@@ -1,0 +1,67 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+    <title>speech_to_text</title>
+</head>
+<body>
+    <div> 
+        
+    </div>
+
+    <py-script>
+        import time
+        import azure.cognitiveservices.speech as speechsdk
+
+        SPEECH_KEY = "c9d3e6d440214af3bc175d4c31809a44"
+        SPEECH_REGION = "eastasia"
+        weatherfilename = 'D:\\中山醫實習\\專案\\Practice\\video\\read1.wav'
+
+        def speech_to_text():
+            speech_config = speechsdk.SpeechConfig(SPEECH_KEY,SPEECH_REGION)
+            speech_config.speech_recognition_language="zh-Tw"   #"zh-Tw"
+            audio_config = speechsdk.audio.AudioConfig(filename=weatherfilename)
+            speech_recognizer = speechsdk.SpeechRecognizer(speech_config=speech_config, audio_config=audio_config)
+
+            done=False
+            def speech_to_text():
+                speech_config = speechsdk.SpeechConfig(SPEECH_KEY,SPEECH_REGION)
+                speech_config.speech_recognition_language="zh-Tw"   #"zh-Tw"
+                audio_config = speechsdk.audio.AudioConfig(filename=weatherfilename)
+                speech_recognizer = speechsdk.SpeechRecognizer(speech_config=speech_config, audio_config=audio_config)
+
+            done=False
+
+            def stop_cb(evt):
+                speech_recognizer.stop_continuous_recognition()
+                nonlocal done
+                done = True
+
+            all_results = []
+            def handle_final_result(evt):
+                all_results.append(evt.result.text)
+            speech_recognizer.recognized.connect(handle_final_result)
+            speech_recognizer.recognized.connect(lambda evt: print('{} '.format(evt)))
+
+            speech_recognizer.session_stopped.connect(stop_cb)
+            speech_recognizer.canceled.connect(stop_cb)
+
+            speech_recognizer.start_continuous_recognition()
+            while not done:
+              time.sleep(.5)
+            all_results = "".join(all_results)
+            print(all_results)
+            return all_results
+
+        speech_to_text()
+    </py-script>
+</body>
+</html>
