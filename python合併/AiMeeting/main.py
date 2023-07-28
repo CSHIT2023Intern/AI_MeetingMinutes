@@ -18,7 +18,7 @@ datafile = app.config['UPLOAD_FOLDER']
 
 # 錄音設定
 # CHUNK: 這是用於錄製音訊時每個音訊緩衝區的大小。這裡設置為 1024，表示每次從音訊設備讀取 1024 個音訊樣本
-CHUNK = 1024
+CHUNK = 512
 # FORMAT: 這是錄製音訊時使用的樣本格式。在這裡，pyaudio.paInt16 表示每個樣本是 16 位整數，常見的音訊樣本格式。
 FORMAT = pyaudio.paInt16
 # CHANNELS: 這是錄製音訊時使用的聲道數。在這裡，CHANNELS = 1 表示使用單聲道進行錄製。
@@ -62,6 +62,7 @@ def recording():
         return render_template('recording.html', wav_files=wav_files)
 
 
+# 開始錄音
 @app.route('/start', methods=['GET', 'POST'])
 def start():
     global audio, frames, record
@@ -88,6 +89,7 @@ def start():
     return redirect(url_for('recording'))
 
 
+# 停止錄音
 @app.route('/stop', methods=['GET', 'POST'])
 def stop():
     global recording

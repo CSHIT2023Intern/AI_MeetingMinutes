@@ -2,6 +2,7 @@
 import os
 import azure.cognitiveservices.speech as speechsdk
 from datetime import datetime
+import time
 
 # 存檔路徑
 OutPutPath = 'txt'
@@ -14,6 +15,7 @@ SPEECH_REGION = "eastasia"
 
 
 def trans(selected_file):
+
     # KEY
     speech_config = speechsdk.SpeechConfig(
         subscription=SPEECH_KEY, region=SPEECH_REGION)
@@ -26,7 +28,29 @@ def trans(selected_file):
         speech_config=speech_config, audio_config=audio_config)
 
     speech_recognition_result = speech_recognizer.recognize_once_async().get()
-    txt = speech_recognition_result.text
+    done = False
+
+    def stop_cb(evt):
+        # print('CLOSING on {}'.format(evt))
+        speech_recognizer.stop_continuous_recognition()
+        nonlocal done
+        done = True
+
+    results = []
+
+    def handle_final_result(evt):
+        results.append(evt.result.text)  # 讀出evt text裡的字串
+
+    speech_recognizer.recognized.connect(handle_final_result)
+
+    speech_recognizer.session_stopped.connect(stop_cb)
+    speech_recognizer.canceled.connect(stop_cb)
+
+    speech_recognizer.start_continuous_recognition()
+    while not done:
+        time.sleep(.5)
+
+    txt = "".join(results)
 
     # 判斷存檔資料夾是否已經存在沒有就建立
     if not os.path.exists(OutPutPath):

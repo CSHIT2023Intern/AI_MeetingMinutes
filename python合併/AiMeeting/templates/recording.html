@@ -8,17 +8,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='StylesRecording.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/StylesRecording.css') }}">
     <title>錄音摘要結果</title>
 </head>
 
 <body>
     <div class="container mt-5">
         <div class="row justify-content-center">
-            <div class="col-md-6 text-center">
+            <div class="col-md-10 text-center">
                 <h2 class="mb-4">錄音摘要結果</h2>
                 <hr class="mb-4">
-                <div class="d-flex justify-content-between mb-4">
+                <div class="d-flex justify-content-around mb-4">
                     <form action="/start" method="post">
                         <input type="submit" value="開始錄音" class="btn btn-primary btn-lg">
                     </form>
@@ -35,23 +35,19 @@
                             {% endfor %}
                         </select>
                         <div class="input-group-append">
-                            <button type="submit" class="btn btn-primary">開始摘要</button>
-                            <img src="{{ url_for('static', filename='pict.png')}}" id="rotate" alt="" class="img_rotate"
-                                width="30" height="30">
+                            <button type="submit" class="btn btn-primary" id="startSummary">開始摘要</button>
                         </div>
                     </div>
                 </form>
-                <div>
-                    <p class="mt-4">以下是您所產生的摘要重點:</p>
-                    <img src="{{ url_for('static', filename='pict.png')}}" id="rotate" alt="" class="img_rotate"
-                        width="30" height="30">
+                <div class="result">
+                    <p>以下是您所產生的摘要重點:</p>
                     <p>{{text}}</p>
                 </div>
                 <div class="mt-4">
                     <button type="button" class="btn btn-secondary mr-3" onclick="window.location.href='/'">首頁</button>
                     <button type="button" class="btn btn-secondary mr-3"
                         onclick="window.location.href='recording'">錄音頁</button>
-                    <button type="button" class="btn btn-secondary"
+                    <button type="button" class="btn btn-secondary  mr-3"
                         onclick="window.location.href='upload_select'">上傳頁</button>
                 </div>
             </div>

@@ -1,4 +1,4 @@
-/* StylesRecording.css */
+/* StylesRecording.css
 
 /* 背景 */
 body {
@@ -8,7 +8,16 @@ body {
 /* 標題樣式 */
 h2 {
     font-size: 24px;
+    font-weight: bold;
     color: #333;
+}
+
+.container {
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
 }
 
 /* 按鈕樣式 */
@@ -37,9 +46,6 @@ form {
     margin-bottom: 20px;
 }
 
-form button {
-    margin-top: 10px;
-}
 
 /* 下拉選單樣式 */
 .selectpicker {
@@ -52,6 +58,20 @@ p {
     line-height: 1.5;
     color: #555;
 }
+
+.result {
+    /* padding: 20px; */
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.result p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #444;
+}
+
 
 /* 首頁按鈕樣式 */
 button.btn-secondary:first-child {
@@ -76,30 +96,4 @@ button.btn-secondary:first-child {
 /* 水平居中 */
 .text-center {
     text-align: center;
-}
-
-.img_rotate {
-    /* transform: rotate(90deg); */
-    -webkit-animation: spin 4s linear infinite;
-    -moz-animation: spin 4s linear infinite;
-    animation: spin 4s linear infinite;
-}
-
-@-moz-keyframes spin {
-    100% {
-        -moz-transform: rotate(360deg);
-    }
-}
-
-@-webkit-keyframes spin {
-    100% {
-        -webkit-transform: rotate(360deg);
-    }
-}
-
-@keyframes spin {
-    100% {
-        -webkit-transform: rotate(360deg);
-        transform: rotate(360deg);
-    }
 }

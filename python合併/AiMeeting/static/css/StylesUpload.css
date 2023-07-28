@@ -1,82 +1,96 @@
-/* StylesUpload.css */
-
-/* 背景 */
 body {
-    background-color: #f8f9fa;
-}
-
-/* 標題樣式 */
-h2 {
-    font-size: 28px;
-    font-weight: bold;
+    font-family: Arial, sans-serif;
+    background-color: #f8f8f8;
     color: #333;
-}
-
-/* 表單樣式 */
-form {
-    margin-bottom: 20px;
-}
-
-form label {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-form label:hover {
-    background-color: #0056b3;
-}
-
-
-
-/* 下拉選單樣式 */
-.selectpicker {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-/* 摘要結果樣式 */
-p {
-    font-size: 18px;
-    line-height: 1.6;
-    color: #333;
-}
-
-/* 首頁按鈕樣式 */
-button.btn-secondary {
-    margin-right: 10px;
-    background-color: #333;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-button.btn-secondary:hover {
-    background-color: #555;
-}
-
-/* 頁面容器樣式 */
-.container {
-    padding: 20px;
-}
-
-/* 行和列樣式 */
-.row {
-    margin-bottom: 30px;
-}
-
-/* 垂直居中 */
-.justify-content-center {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
     align-items: center;
 }
 
-/* 水平居中 */
-.text-center {
+h1 {
+    background-color: #555;
+    color: #fff;
+    padding: 10px;
     text-align: center;
+}
+
+.container {
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}
+
+form {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+input[type="file"] {
+    margin: 10px auto;
+}
+
+input[type="submit"],
+button[type="submit"] {
+    background-color: #ff5733;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border-radius: 5px;
+}
+
+input[type="submit"]:hover,
+button[type="submit"]:hover {
+    background-color: #e63c1e;
+}
+
+select {
+    margin: 10px auto;
+    padding: 5px;
+    width: 50%;
+}
+
+p {
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.result {
+    /* padding: 20px; */
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.result p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #444;
+}
+
+.btn-group {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+
+}
+
+.btn-group button {
+    margin-right: 10px;
+    background-color: #555;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border-radius: 5px;
+}
+
+.btn-group button:hover {
+    background-color: #444;
 }
