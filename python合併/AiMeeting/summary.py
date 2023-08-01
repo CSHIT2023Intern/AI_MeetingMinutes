@@ -20,7 +20,11 @@ def summary(txt):
     response = openai.ChatCompletion.create(
         engine="CSHITIntern",
         messages=[
+<<<<<<< Updated upstream
             {"role": "system", "content": "我是一個秘書要做會議紀錄"},  # 人物設定
+=======
+            {"role": "system", "content": "你是一名助理要幫我記錄對話"},  # 人物設定
+>>>>>>> Stashed changes
             {"role": "assistant", "content": txt},  # 文章
             {"role": "user", "content": "可以幫我們統整重點"}  # 想要叫GPT做的事
         ])

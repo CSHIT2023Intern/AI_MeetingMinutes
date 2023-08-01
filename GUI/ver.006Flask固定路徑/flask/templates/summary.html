@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>選擇錄音檔案</title>
+</head>
+
+<body>
+    <h1>選擇已存檔錄音</h1>
+    <form action="{{ url_for('select_summary_file') }}" method="POST">
+        <select name="selected_wav_file" id="selectedWavFile">
+            {% for file in wav_files %}
+            <option value="{{ file.url }}">{{ file.name }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <button type="submit">開始摘要</button>
+    </form>
+
+    {% if selected_file %}
+    <h2>選擇的音檔儲存位置路徑：</h2>
+    <p>{{ selected_file }}</p>
+    {% endif %}
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+
+</html>

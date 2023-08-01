@@ -20,7 +20,11 @@ def trans(selected_file):
        # 這裡的資料型別為dict，因此先把他取出放到變數text
         text = SpeechRecognition.recognize_whisper(
             audio,
+<<<<<<< Updated upstream
             model="tiny",
+=======
+            model="medium",
+>>>>>>> Stashed changes
             language="zh"
         )
     except speech_recognition.UnknownValueError:
@@ -38,3 +42,11 @@ def trans(selected_file):
         file.write(txt)
 
     return txt
+<<<<<<< Updated upstream
+=======
+
+
+file = r"C:\users\user\Desktop\AiMeeting\Source\test.wav"
+x = trans(file)
+print(x)
+>>>>>>> Stashed changes

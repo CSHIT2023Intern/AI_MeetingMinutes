@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles.css') }}">
+    <title>會議記錄檔案上傳</title>
+</head>
+
+<body>
+    <div class="container">
+        <h1>歡迎</h1>
+        <p>請錄音或上傳音訊檔後進行摘要</p>
+        <form action="" method="post" enctype="multipart/form-data">
+            <input type="file" name="file">
+            <input type="submit" value="上傳檔案">
+        </form>
+        <div id="recordingStatus"></div>
+        <div class="button-group">
+            <button id="startButton">開始錄音</button>
+            <button id="stopButton" disabled>停止錄音</button>
+        </div>
+        <div class="button-group">
+            <form action="{{ url_for('generate_summary_click') }}" method="POST">
+                <button type="submit">摘要總結</button>
+            </form>
+        </div>
+
+        <h2>已存檔錄音</h2>
+        <div id="fileList"></div>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+
+</html>

@@ -8,6 +8,11 @@ from trans import trans
 from summary import summary
 import wave
 import pyaudio
+<<<<<<< Updated upstream
+=======
+import unicodedata
+
+>>>>>>> Stashed changes
 
 app = Flask(__name__)
 

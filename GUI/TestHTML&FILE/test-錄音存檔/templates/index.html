@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+
+    <title>錄音機</title>
+</head>
+
+<body>
+    <h1>錄音機</h1>
+    <button id="startButton">開始錄音</button>
+    <button id="stopButton" disabled>停止錄音</button>
+    <div id="recordingStatus"></div>
+    <div id="fileList"></div>
+
+    <script>
+        let audioChunks = [];
+        let mediaRecorder;
+
+        navigator.mediaDevices.getUserMedia({ audio: true })
+            .then(function (stream) {
+                mediaRecorder = new MediaRecorder(stream);
+
+                mediaRecorder.addEventListener('dataavailable', function (event) {
+                    audioChunks.push(event.data);
+                });
+
+                document.getElementById('startButton').addEventListener('click', function () {
+                    audioChunks = [];
+                    mediaRecorder.start();
+                    document.getElementById('startButton').disabled = true;
+                    document.getElementById('stopButton').disabled = false;
+                    document.getElementById('recordingStatus').textContent = '錄音中...';
+                });
+
+                document.getElementById('stopButton').addEventListener('click', function () {
+                    mediaRecorder.stop();
+                    document.getElementById('startButton').disabled = false;
+                    document.getElementById('stopButton').disabled = true;
+                    document.getElementById('recordingStatus').textContent = '';
+                });
+
+                mediaRecorder.addEventListener('stop', function () {
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                    const audioUrl = URL.createObjectURL(audioBlob);
+
+                    // 上傳錄音檔案到Flask伺服器
+                    const formData = new FormData();
+                    formData.append('audio', audioBlob);
+
+                    fetch('/upload', { method: 'POST', body: formData })
+                        .then(function (response) {
+                            if (response.ok) {
+                                console.log('檔案上傳成功');
+                                // 更新檔案列表
+                                fetch('/files')
+                                    .then(function (response) {
+                                        return response.json();
+                                    })
+                                    .then(function (data) {
+                                        const fileList = document.getElementById('fileList');
+                                        fileList.innerHTML = '';
+                                        data.forEach(function (file) {
+                                            const link = document.createElement('a');
+                                            link.href = file.url;
+                                            link.textContent = file.name;
+                                            link.setAttribute('target', '_blank');
+                                            fileList.appendChild(link);
+                                            fileList.appendChild(document.createElement('br'));
+                                        });
+                                    })
+                                    .catch(function (error) {
+                                        console.error('無法獲取檔案列表:', error);
+                                    });
+                            } else {
+                                console.error('檔案上傳失敗');
+                            }
+                        })
+                        .catch(function (error) {
+                            console.error('檔案上傳失敗:', error);
+                        });
+                });
+            })
+            .catch(function (error) {
+                console.error('取得錄音權限失敗:', error);
+            });
+    </script>
+</body>
+
+</html>

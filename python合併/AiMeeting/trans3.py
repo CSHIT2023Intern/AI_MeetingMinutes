@@ -1,4 +1,7 @@
+<<<<<<< Updated upstream
 # 可能會有中間斷氣太久而中斷
+=======
+>>>>>>> Stashed changes
 import os
 import azure.cognitiveservices.speech as speechsdk
 from datetime import datetime
@@ -27,7 +30,10 @@ def trans(selected_file):
     speech_recognizer = speechsdk.SpeechRecognizer(
         speech_config=speech_config, audio_config=audio_config)
 
+<<<<<<< Updated upstream
     speech_recognition_result = speech_recognizer.recognize_once_async().get()
+=======
+>>>>>>> Stashed changes
     done = False
 
     def stop_cb(evt):
