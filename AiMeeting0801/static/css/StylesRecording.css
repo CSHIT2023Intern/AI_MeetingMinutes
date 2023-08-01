@@ -1,0 +1,99 @@
+/* StylesRecording.css
+
+/* 背景 */
+body {
+    background-color: #f0f0f0;
+}
+
+/* 標題樣式 */
+h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+.container {
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}
+
+/* 按鈕樣式 */
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.btn-secondary:hover {
+    background-color: #555e66;
+    border-color: #555e66;
+}
+
+/* 表單樣式 */
+form {
+    margin-bottom: 20px;
+}
+
+
+/* 下拉選單樣式 */
+.selectpicker {
+    width: 100%;
+}
+
+/* 摘要結果樣式 */
+p {
+    font-size: 18px;
+    line-height: 1.5;
+    color: #555;
+}
+
+.result {
+    /* padding: 20px; */
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.result p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #444;
+}
+
+
+/* 首頁按鈕樣式 */
+button.btn-secondary:first-child {
+    margin-right: 10px;
+}
+
+/* 頁面容器樣式 */
+.container {
+    padding: 20px;
+}
+
+/* 行和列樣式 */
+.row {
+    margin-bottom: 30px;
+}
+
+/* 垂直居中 */
+.justify-content-center {
+    align-items: center;
+}
+
+/* 水平居中 */
+.text-center {
+    text-align: center;
+}
