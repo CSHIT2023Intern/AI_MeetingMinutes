@@ -5,11 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
-using System.Net.Mime;
 using System.IO;
-using static System.Web.Razor.Parser.SyntaxConstants;
+
 
 namespace WebApplication2.Controllers
 {
@@ -21,7 +19,7 @@ namespace WebApplication2.Controllers
             return View();
         }
 
-        // 自定義的數字排序比較器
+        // 數字排序比較器
         public class NumericComparer : IComparer<string>
         {
             public int Compare(string x, string y)
@@ -35,30 +33,41 @@ namespace WebApplication2.Controllers
         [HttpPost]
         public async Task<ActionResult> RecognizeSpeech()
         {
+            //設定
             var config = SpeechConfig.FromSubscription("c9d3e6d440214af3bc175d4c31809a44", "eastasia");
             config.SpeechRecognitionLanguage = "zh-TW";
 
+            //檔案輸入          
             //var m4aFile = Server.MapPath(@"~\UploadFile\123.m4a");
             //var mp3File = Server.MapPath(@"~\UploadFile\read.mp3");
-            var audioFile = Server.MapPath(@"~\UploadFile\TaipeiMeet.wav");
+            //var audioFile = Server.MapPath(@"~\UploadFile\TaipeiMeet.wav");
+            var audioFile = Server.MapPath(@"~\UploadFile\123.wav");
 
-            //mp3 to wav
-            //using (var reader = new Mp3FileReader(mp3File))
-            //using (var writer = new WaveFileWriter(audioFile, reader.WaveFormat))
-            //{
-            //    reader.CopyTo(writer);
-            //}
+            // 在這裡獲取副檔名
+            string audioExtension = Path.GetExtension(audioFile).ToLower();
+            // 檔案類型判斷 
+            if (audioExtension == ".mp3" || audioExtension == ".m4a")
+            {
+                // wav
+                //Mp3FileReader專門mp3 MediaFoundationReader常見音訊
+                using (var reader = new MediaFoundationReader(audioFile))
 
-            //m4a to wav
-            //using (var reader = new MediaFoundationReader(m4aFile))
-            //{
-            //    WaveFileWriter.CreateWaveFile(m4aFile, reader);
-            //}
-
+                //會留原本音檔
+                using (var writer = new WaveFileWriter(audioFile, reader.WaveFormat))
+                {
+                    reader.CopyTo(writer);
+                }
+                //直接覆蓋原本音檔             
+                //using (var reader = new MediaFoundationReader(m4aFile))
+                //{
+                //    WaveFileWriter.CreateWaveFile(m4aFile, reader);
+                //}
+            }
+            
+            //切割後檔案存放位置
             string outputDirectory = Server.MapPath(@"~\cutWav\");
-
-            int chunkSizeInSeconds = 300; // 每個小檔案的秒數
-
+            //每個小檔案的秒數
+            int chunkSizeInSeconds = 5;
             //切歌成小檔案
             using (var reader = new WaveFileReader(audioFile))
             {
@@ -76,43 +85,46 @@ namespace WebApplication2.Controllers
                     {
                         writer.Write(buffer, 0, bytesRead);
                     }
-
                     chunkNumber++;
                 }
             }
-
+            //最後組合用的
             var recognizedText = "";
-            string[] files = Directory.GetFiles(outputDirectory, "chunk_*.wav");
-
-       
-            // 對檔案名稱進行自定義的數字排序
+            //把檔案存到陣列
+            string[] files = Directory.GetFiles(outputDirectory, "chunk_*.wav");         
+            //對檔案名稱進行自定義的數字排序
             Array.Sort(files, new NumericComparer());
+            //辨識
             foreach (var file in files)
-            {
-                var audioConfig = AudioConfig.FromWavFileInput(file);
-                var speechRecognizer = new SpeechRecognizer(config, audioConfig);
-
-                var stopRecognition = new TaskCompletionSource<int>();
-
-                speechRecognizer.Recognized += (s, e) =>
+            {              
+                using(var audioConfig = AudioConfig.FromWavFileInput(file))
+                using(var speechRecognizer = new SpeechRecognizer(config, audioConfig))
                 {
-                    if (e.Result.Reason == ResultReason.RecognizedSpeech)
+                    speechRecognizer.Recognized += (s, e) =>
                     {
-                        string recognizedSegment = e.Result.Text;
-                        recognizedText += recognizedSegment + " ";
-                    }
-                };
-
+                        if (e.Result.Reason == ResultReason.RecognizedSpeech)
+                        {
+                            string recognizedSegment = e.Result.Text;
+                            recognizedText += recognizedSegment + " ";
+                        }
+                    };
 
                 await speechRecognizer.StartContinuousRecognitionAsync();
-                await Task.Delay(TimeSpan.FromSeconds(40));
-                //await Task.WhenAll(Task.Delay(1000));
-
+                await Task.Delay(TimeSpan.FromSeconds(10));
                 //await speechRecognizer.StopContinuousRecognitionAsync();
-            }
-           ;
+                }
+                //刪除切割後的檔案
+                try
+                {
+                    await Task.WhenAll(Task.Delay(1000));
+                    System.IO.File.Delete(file);
+                }
+                catch (System.IO.IOException copyError)
+                {
+                    Console.WriteLine(copyError.Message);
+                }
+            } 
             return Content(recognizedText);
-
         }
     }
 }
