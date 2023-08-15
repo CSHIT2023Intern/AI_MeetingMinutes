@@ -752,6 +752,11 @@
             <summary>
             Creates an AudioProcessingOptions object with audio processing flags.
             </summary>
+            <remarks>
+            This method should only be used when the audio input is from a microphone array.
+            On Windows, this method will try to query the microphone array geometry from the audio driver. Audio data is also read from speaker reference channel.
+            On Linux, it assumes that the microphone is a single channel microphone.
+            </remarks>
             <param name="audioProcessingFlags">Specifies flags to control the audio processing performed by Speech SDK. It is bitwise OR of constants from AudioProcessingConstants class.</param>
             <returns>The audio processing options object being created.</returns>
         </member>
@@ -2071,6 +2076,608 @@
             Gets the user identifier.
             </summary>
         </member>
+        <member name="T:Microsoft.CognitiveServices.Speech.Intent.ConversationalLanguageUnderstandingModel">
+            <summary>
+            Represents a pattern matching model used for intent recognition.
+            </summary>
+        </member>
+        <member name="P:Microsoft.CognitiveServices.Speech.Intent.ConversationalLanguageUnderstandingModel.ModelId">
+            <summary>
+            Unique Id for this model.
+            Note for ConversationalLanguageUnderstandingModels this will be set to the ProjectName-DeploymentName.
+            </summary>
+            <returns>A string representing the id of this model.</returns>
+        </member>
+        <member name="P:Microsoft.CognitiveServices.Speech.Intent.ConversationalLanguageUnderstandingModel.LanguageResourceKey">
+            <summary>
+            This is the Azure language resource key to be used with this model.
+            </summary>
+        </member>
+        <member name="P:Microsoft.CognitiveServices.Speech.Intent.ConversationalLanguageUnderstandingModel.Endpoint">
+            <summary>
+            Conversational Language Understanding deployment endpoint to contact.
+            </summary>
+        </member>
+        <member name="P:Microsoft.CognitiveServices.Speech.Intent.ConversationalLanguageUnderstandingModel.ProjectName">
+            <summary>
+            Conversational Language Understanding project name.
+            </summary>
+        </member>
+        <member name="P:Microsoft.CognitiveServices.Speech.Intent.ConversationalLanguageUnderstandingModel.DeploymentName">
+            <summary>
+            Conversational Language Understanding deployment name.
+            </summary>
+        </member>
+        <member name="M:Microsoft.CognitiveServices.Speech.Intent.ConversationalLanguageUnderstandingModel.#ctor(System.String,System.String,System.String,System.String)">
+            <summary>
+            Creates a Conversational Language Understanding (CLU) model using the specified model ID.
+            </summary>
+            <param name="languageResourceKey">The Azure Language resource key.</param>
+            <param name="endpoint">The Azure Language resource endpoint.</param>
+            <param name="projectName">The Conversational Language Understanding project name.</param>
+            <param name="deploymentName">The Conversational Language Understanding deployment name.</param>
+            <returns>A shared pointer to the Conversational Language Understanding model.</returns>
+        </member>
+        <member name="T:Microsoft.CognitiveServices.Speech.Intent.IntentRecognitionResult">
+            <summary>
+            Contains result of intent recognition.
+            </summary>
+        </member>
+        <member name="M:Microsoft.CognitiveServices.Speech.Intent.IntentRecognitionResult.#ctor(System.IntPtr)">
+            <summary>
+            Creates a new instance
+            </summary>
+            <param name="resultHandle">The native result handle</param>
+        </member>
+        <member name="P:Microsoft.CognitiveServices.Speech.Intent.IntentRecognitionResult.IntentId">
+            <summary>
+            A string that represents the intent identifier being recognized.
+            </summary>
+        </member>
+        <member name="P:Microsoft.CognitiveServices.Speech.Intent.IntentRecognitionResult.Entities">
+            <summary>
+            Gets the entities found in the utterance.
+            </summary>
+            <remarks>This does not currently support LUIS entities.</remarks>
+        </member>
+        <member name="M:Microsoft.CognitiveServices.Speech.Intent.IntentRecognitionResult.ToString">
+            <summary>
+            Returns a string that represents the intent recognition result.
+            </summary>
+            <returns>A string that represents the intent recognition result.</returns>
+        </member>
+        <member name="T:Microsoft.CognitiveServices.Speech.Intent.IntentRecognitionEventArgs">
+            <summary>
+            Contains payload of intent recognizing/recognized events.
+            </summary>
+        </member>
+        <member name="P:Microsoft.CognitiveServices.Speech.Intent.IntentRecognitionEventArgs.Result">
+            <summary>
+            Represents the intent recognition result.
+            </summary>
+        </member>
+        <member name="M:Microsoft.CognitiveServices.Speech.Intent.IntentRecognitionEventArgs.ToString">
+            <summary>
+            Returns a string that represents the session id and the intent recognition result event.
+            </summary>
+            <returns>A string that represents the intent recognition result event.</returns>
+        </member>
+        <member name="T:Microsoft.CognitiveServices.Speech.Intent.IntentRecognitionCanceledEventArgs">
+            <summary>
+            Contains payload of intent recognition canceled result events.
+            </summary>
+        </member>
+        <member name="P:Microsoft.CognitiveServices.Speech.Intent.IntentRecognitionCanceledEventArgs.Reason">
+            <summary>
+            The reason the result was canceled.
+            </summary>
+        </member>
+        <member name="P:Microsoft.CognitiveServices.Speech.Intent.IntentRecognitionCanceledEventArgs.ErrorCode">
+            <summary>
+            The error code in case of an unsuccessful recognition (<see cref="P:Microsoft.CognitiveServices.Speech.Intent.IntentRecognitionCanceledEventArgs.Reason"/> is set to Error).
+            If Reason is not Error, ErrorCode returns NoError.
+            Added in 1.1.0
+            </summary>
+        </member>
+        <member name="P:Microsoft.CognitiveServices.Speech.Intent.IntentRecognitionCanceledEventArgs.ErrorDetails">
+            <summary>
+            The error message in case of an unsuccessful recognition (<see cref="P:Microsoft.CognitiveServices.Speech.Intent.IntentRecognitionCanceledEventArgs.Reason"/> is set to Error).
+            </summary>
+        </member>
+        <member name="M:Microsoft.CognitiveServices.Speech.Intent.IntentRecognitionCanceledEventArgs.ToString">
+            <summary>
+            Returns a string that represents the session id and the intent recognition result event.
+            </summary>
+            <returns>A string that represents the intent recognition result event.</returns>
+        </member>
+        <member name="T:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer">
+             <summary>
+             Recognizes intents using a language understanding (LUIS) model or phrase. 
+             </summary>
+             <remarks>
+             Intents indicate what the user wishes to initiate or do based on options you define.
+             Successful intent recognition returns both recognized text and recognized intent.
+            
+             See also: [Get started with intent recognition](/azure/cognitive-services/speech-service/quickstarts/intent-recognition)
+             </remarks>
+        </member>
+        <member name="E:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.Recognizing">
+            <summary>
+            The event <see cref="E:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.Recognizing"/> signals that an intermediate recognition result is received.
+            </summary>
+        </member>
+        <member name="E:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.Recognized">
+            <summary>
+            The event <see cref="E:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.Recognized"/> signals that a final recognition result is received.
+            </summary>
+        </member>
+        <member name="E:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.Canceled">
+            <summary>
+            The event <see cref="E:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.Canceled"/> signals that the intent recognition was canceled.
+            </summary>
+        </member>
+        <member name="M:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.#ctor(Microsoft.CognitiveServices.Speech.SpeechConfig)">
+            <summary>
+            Creates a new instance of IntentRecognizer.
+            </summary>
+            <param name="speechConfig">Speech configuration</param>
+        </member>
+        <member name="M:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.#ctor(Microsoft.CognitiveServices.Speech.EmbeddedSpeechConfig)">
+            <summary>
+            Creates a new instance of IntentRecognizer using EmbeddedSpeechConfig,
+            configured to receive speech from the default microphone.
+            Added in 1.20.0
+            </summary>
+            <param name="speechConfig">Embedded speech configuration</param>
+        </member>
+        <member name="M:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.#ctor(Microsoft.CognitiveServices.Speech.SpeechConfig,Microsoft.CognitiveServices.Speech.Audio.AudioConfig)">
+            <summary>
+            Creates a new instance of IntentRecognizer.
+            </summary>
+            <param name="speechConfig">Speech configuration</param>
+            <param name="audioConfig">Audio configuration</param>
+        </member>
+        <member name="M:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.#ctor(Microsoft.CognitiveServices.Speech.EmbeddedSpeechConfig,Microsoft.CognitiveServices.Speech.Audio.AudioConfig)">
+            <summary>
+            Creates a new instance of IntentRecognizer using EmbeddedSpeechConfig,
+            configured to receive speech from an audio source specified in an AudioConfig object.
+            Added in 1.20.0
+            </summary>
+            <param name="speechConfig">Embedded speech configuration</param>
+            <param name="audioConfig">Audio configuration</param>
+        </member>
+        <member name="P:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.SpeechRecognitionLanguage">
+            <summary>
+            Gets the language name that is used for recognition.
+            </summary>
+        </member>
+        <member name="M:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.ApplyLanguageModels(Microsoft.CognitiveServices.Speech.Intent.LanguageUnderstandingModelCollection)">
+            <summary>
+            Takes a collection of language understanding models, makes a copy of them, and applies them to the recognizer. This application
+            takes effect at different times depending on the LanguageUnderstandingModel type.
+            PatternMatchingModels will become active immediately whereas
+            LanguageUnderstandingModels utilizing the LUIS service will become active immediately
+            unless the recognizer is in the middle of intent recognition in which case it will
+            take effect after the next Recognized event.
+            </summary>
+            <param name="collection">A LanguageUnderstandingModelCollection of shared pointers to LanguageUnderstandingModels.</param>
+            <remarks>This replaces any previously applied models.</remarks>
+            <returns>True if the application of the models takes effect immediately. Otherwise false.</returns>
+        </member>
+        <member name="P:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.AuthorizationToken">
+            <summary>
+            Gets or sets authorization token used to communicate with the service.
+              
+            Note: The caller needs to ensure that the authorization token is valid. Before the authorization token
+            expires, the caller needs to refresh it by calling this setter with a new valid token.
+            Otherwise, the recognizer will encounter errors during recognition.
+            </summary>
+        </member>
+        <member name="P:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.Properties">
+             <summary>
+             Gets the collection of properties and their values defined for this <see cref="T:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer"/>.
+             </summary>
+             <remarks>
+             The property collection is only valid until the recognizer owning this Properties is disposed or finalized.
+            
+             For a code example that displays the raw JSON results of an intent recognition, 
+             see [How to recognize intents from speech using the Speech SDK for C#](/azure/cognitive-services/speech-service/how-to-recognize-intents-from-speech-csharp).
+             </remarks>
+        </member>
+        <member name="M:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.RecognizeOnceAsync">
+             <summary>
+             Starts speech recognition with intent recognition as an asynchronous operation.
+             </summary>
+             <remarks>
+             The end of a single utterance is determined by listening for silence at the end, or until a timeout period has elapsed.
+             The task returns the intent in <see cref="P:Microsoft.CognitiveServices.Speech.Intent.IntentRecognitionResult.IntentId" /> 
+             and the recognized speech in <see cref="T:Microsoft.CognitiveServices.Speech.Translation.TranslationRecognitionResult" />.Text.
+             Intents are defined in the LUIS model or through an <see cref="M:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.AddIntent(System.String)" /> or <see cref="M:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.AddIntent(System.String,System.String)" />method.
+               
+             You can call <see cref="M:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.StopContinuousRecognitionAsync" />
+             to stop recognition before an intent has been recognized.
+               
+             Since this method returns only a single utterance, it is suitable only for single shot recognition like command or query. 
+             For long-running multi-utterance recognition, use <see cref="M:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.StartContinuousRecognitionAsync" /> instead.
+            
+             See also: [Get started with intent recognition](/azure/cognitive-services/speech-service/quickstarts/intent-recognition)
+             </remarks>
+             <returns>A task representing the recognition operation. The task returns a value of <see cref="T:Microsoft.CognitiveServices.Speech.Intent.IntentRecognitionResult"/></returns>
+        </member>
+        <member name="M:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.RecognizeOnceAsync(System.String)">
+            <summary>
+            Performs intent recognition, and generates a result from the text passed in. This is useful for testing and other times when the speech input
+            is not tied to the IntentRecognizer.
+            Note: The Intent Service does not currently support this so it is only valid for offline pattern matching or exact matching intents.
+            </summary>
+            <param name="text">The text to be recognized for intent.</param>
+            <returns>A task representing the recognition operation. The task returns a value of <see cref="T:Microsoft.CognitiveServices.Speech.Intent.IntentRecognitionResult"/></returns>
+        </member>
+        <member name="M:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.StartContinuousRecognitionAsync">
+            <summary>
+            Starts speech recognition on a continuous audio stream asynchronously, 
+            until <see cref="M:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.StopContinuousRecognitionAsync" /> is called.
+            </summary>
+            <remarks>
+            To receive recognition results, you must subscribe to events.
+            </remarks>
+            <returns>A task representing the asynchronous operation that starts the recognition.</returns>
+        </member>
+        <member name="M:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.StopContinuousRecognitionAsync">
+            <summary>
+            Stops a running recognition operation as soon as possible and immediately requests a result based on the
+            the input that has been processed so far. This works for all recognition operations, not just continuous
+            ones, and facilitates the use of push-to-talk or "finish now" buttons for manual audio endpointing.
+            </summary>
+            <returns>
+            A task that will complete when input processing has been stopped. Result generation, if applicable for the
+            input provided, may happen after this task completes and should be handled with the appropriate event.
+            </returns>
+        </member>
+        <member name="M:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.StartKeywordRecognitionAsync(Microsoft.CognitiveServices.Speech.KeywordRecognitionModel)">
+            <summary>
+            Configures the recognizer with the given keyword model. After calling this method, the recognizer is listening 
+            for the keyword to start the recognition. Call StopKeywordRecognitionAsync() to end the keyword initiated recognition.
+            You must subscribe to events to receive recognition results.
+            </summary>
+            <param name="model">The keyword recognition model that specifies the keyword to be recognized.</param>
+            <returns>A task representing the asynchronous operation that starts the recognition.</returns>
+        </member>
+        <member name="M:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.StopKeywordRecognitionAsync">
+            <summary>
+            Ends the keyword initiated recognition.
+            </summary>
+            <returns>A task representing the asynchronous operation that stops the recognition.</returns>
+        </member>
+        <member name="M:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.AddIntent(System.String)">
+            <summary>
+            Adds a simple phrase that may be spoken by the user, indicating a specific user intent.
+            </summary>
+            <param name="simplePhrase">The phrase corresponding to the intent.</param>
+            <remarks>Once recognized, the IntentRecognitionResult's IntentId property will match the simplePhrase specified here.</remarks>
+        </member>
+        <member name="M:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.AddIntent(System.String,System.String)">
+            <summary>
+            Adds a simple phrase that may be spoken by the user, indicating a specific user intent.
+            </summary>
+            <param name="simplePhrase">The phrase corresponding to the intent.</param>
+            <param name="intentId">A custom id string to be returned in the <see cref="P:Microsoft.CognitiveServices.Speech.Intent.IntentRecognitionResult.IntentId" /> property.</param>
+            <remarks>Once recognized, the result's intent id will match the id supplied here.</remarks>
+        </member>
+        <member name="M:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.AddIntent(Microsoft.CognitiveServices.Speech.Intent.LanguageUnderstandingModel,System.String)">
+            <summary>
+            Adds a single intent by name from the specified Language Understanding Model.
+            For PatternMatchingModel and ConversationalLanguageUnderstandingModel types, this will clear
+            any existing models before enabling it. For these types, the intentName is ignored.
+            </summary>
+            <param name="model">The language understanding model containing the intent.</param>
+            <param name="intentName">The name of the single intent to be included from the language understanding model.</param>
+            <remarks>Once recognized, the <see cref="P:Microsoft.CognitiveServices.Speech.Intent.IntentRecognitionResult.IntentId" /> property will contain the intentName specified here.</remarks>
+        </member>
+        <member name="M:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.AddIntent(Microsoft.CognitiveServices.Speech.Intent.LanguageUnderstandingModel,System.String,System.String)">
+            <summary>
+            Adds a single intent by name from the specified Language Understanding Model.
+            For PatternMatchingModel and ConversationalLanguageUnderstandingModel types, this will clear
+            any existing models before enabling it. For these types, the intentName and intentId are ignored.
+            </summary>
+            <param name="model">The language understanding model containing the intent.</param>
+            <param name="intentName">The name of the single intent to be included from the language understanding model.</param>
+            <param name="intentId">A custom id string to be returned in the IntentRecognitionResult's IntentId property.</param>
+        </member>
+        <member name="M:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.AddAllIntents(Microsoft.CognitiveServices.Speech.Intent.LanguageUnderstandingModel,System.String)">
+            <summary>
+            Adds a single intent by name from the specified Language Understanding Model.
+            For PatternMatchingModel and ConversationalLanguageUnderstandingModel types, this will clear
+            any existing models before enabling it. For these types, the intentName is ignored.
+            </summary>
+            <param name="model">The language understanding model from Language Understanding service.</param>
+            <param name="intentId">A custom string id to be returned in the <see cref="P:Microsoft.CognitiveServices.Speech.Intent.IntentRecognitionResult.IntentId" /> property.</param>
+        </member>
+        <member name="M:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.AddAllIntents(Microsoft.CognitiveServices.Speech.Intent.LanguageUnderstandingModel)">
+            <summary>
+            Adds all intents from the specified Language Understanding Model.
+            For PatternMatchingModel and ConversationalLanguageUnderstandingModel types, this will clear
+            any existing models before enabling it.
+            </summary>
+            <param name="model">The language understanding model containing the intents.</param>
+        </member>
+        <member name="M:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.Dispose(System.Boolean)">
+            <summary>
+            This method performs cleanup of resources.
+            The Boolean parameter <paramref name="disposing"/> indicates whether the method is called from <see cref="M:System.IDisposable.Dispose"/> (if <paramref name="disposing"/> is true) or from the finalizer (if <paramref name="disposing"/> is false).
+            Derived classes should override this method to dispose resource if needed.
+            </summary>
+            <param name="disposing">Flag to request disposal.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Microsoft.CognitiveServices.Speech.Intent.LanguageUnderstandingModel">
+            <summary>
+            Represents language understanding model used for intent recognition.
+            </summary>
+            <remarks>
+            See also: [Add a LanguageUnderstandingModel and intents](/azure/cognitive-services/speech-service/quickstarts/intent-recognition)
+            </remarks>
+        </member>
+        <member name="P:Microsoft.CognitiveServices.Speech.Intent.LanguageUnderstandingModel.ModelId">
+            <summary>
+            Unique Id for this model.
+            </summary>
+            <returns>A string representing the id of this model.</returns>
+        </member>
+        <member name="M:Microsoft.CognitiveServices.Speech.Intent.LanguageUnderstandingModel.FromEndpoint(System.String)">
+            <summary>
+            Creates a language understanding model using the specified endpoint URL.
+            </summary>
+            <remarks>
+            The Speech SDK supports LUIS v2.0 and v3.0 endpoints. For details, see [Get started with intent recognition](https://docs.microsoft.com/azure/cognitive-services/speech-service/quickstarts/intent-recognition).
+            </remarks>
+            <param name="uri">Endpoint of the language understanding model.</param>
+            <returns>The language understanding model being created.</returns>
+        </member>
+        <member name="M:Microsoft.CognitiveServices.Speech.Intent.LanguageUnderstandingModel.FromAppId(System.String)">
+            <summary>
+            Creates a language understanding model using the application id of Language Understanding service.
+            </summary>
+            <remarks>
+            See also: [Add a LanguageUnderstandingModel and intents](/azure/cognitive-services/speech-service/quickstarts/intent-recognition)
+            </remarks>
+            <param name="appId">The app ID in the LUIS portal.</param>
+            <returns>The language understanding model being created.</returns>
+        </member>
+        <member name="M:Microsoft.CognitiveServices.Speech.Intent.LanguageUnderstandingModel.FromSubscription(System.String,System.String,System.String)">
+            <summary>
+            Creates a language understanding model using hostname, subscription key and application id of Language Understanding service.
+            </summary>
+            <param name="subscriptionKey">The subscription key of Language Understanding service.</param>
+            <param name="appId">The app ID in the LUIS portal.</param>
+            <param name="region">The region identifier for the given subscription key.</param>
+            <returns>The language understanding model being created.</returns>
+        </member>
+        <member name="T:Microsoft.CognitiveServices.Speech.Intent.LanguageUnderstandingModelCollection">
+            <summary>
+            Represents a collection of LanguageUnderstanding models used for intent recognition.
+            </summary>
+        </member>
+        <member name="M:Microsoft.CognitiveServices.Speech.Intent.LanguageUnderstandingModelCollection.GetKeyForItem(Microsoft.CognitiveServices.Speech.Intent.LanguageUnderstandingModel)">
+            <summary>
+            Gets key for item/
+            </summary>
+            <param name="item">Item to get key of.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Microsoft.CognitiveServices.Speech.Intent.PatternMatchingEntity">
+            <summary>
+            Represents a pattern matching entity used for intent recognition.
+            </summary>
+        </member>
+        <member name="P:Microsoft.CognitiveServices.Speech.Intent.PatternMatchingEntity.EntityId">
+            <summary>
+            An Id used to define this entity if it is matched. This id must appear in an intent phrase
+            or the entity will never be matched.
+            </summary>
+        </member>
+        <member name="P:Microsoft.CognitiveServices.Speech.Intent.PatternMatchingEntity.Mode">
+            <summary>
+            The EntityMatchMode of this Entity.
+            </summary>
+        </member>
+        <member name="P:Microsoft.CognitiveServices.Speech.Intent.PatternMatchingEntity.Type">
+            <summary>
+            The EntityType of this Entity.
+            </summary>
+        </member>
+        <member name="P:Microsoft.CognitiveServices.Speech.Intent.PatternMatchingEntity.Phrases">
+            <summary>
+            A list of strings used to match the entity for List type entities. Strict Mode means the entity must appear in the list.
+            </summary>
+        </member>
+        <member name="M:Microsoft.CognitiveServices.Speech.Intent.PatternMatchingEntity.#ctor(System.String,Microsoft.CognitiveServices.Speech.Intent.EntityType,Microsoft.CognitiveServices.Speech.Intent.EntityMatchMode,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Protected constructor that sets the properties with the input parameters.
+            </summary>
+            <param name="entityId">The entityId.</param>
+            <param name="type">The EntityType.</param>
+            <param name="mode">The EntityMatchMode.</param>
+            <param name="phrases"></param>
+        </member>
+        <member name="M:Microsoft.CognitiveServices.Speech.Intent.PatternMatchingEntity.CreateAnyEntity(System.String)">
+            <summary>
+            Creates a pattern matching entity using the specified intent ID.
+            </summary>
+            <param name="entityId">A string that represents a unique Id for this entity.</param>
+            <returns>The Pattern Matching Entity being created.</returns>
+        </member>
+        <member name="M:Microsoft.CognitiveServices.Speech.Intent.PatternMatchingEntity.CreateIntegerEntity(System.String)">
+            <summary>
+            Creates a pattern matching entity using the specified intent ID. The PrebuiltInteger Entity will match words representing numbers in lexical, digit, and ordinal formats.
+            </summary>
+            <param name="entityId">A string that represents a unique Id for this entity.</param>
+            <returns>The Pattern Matching Entity being created.</returns>
+        </member>
+        <member name="M:Microsoft.CognitiveServices.Speech.Intent.PatternMatchingEntity.CreateListEntity(System.String,Microsoft.CognitiveServices.Speech.Intent.EntityMatchMode,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Creates a pattern matching entity using the specified intent ID, EntityMatchMode, phrases. This entity type will match based on the phrases provided.
+            </summary>
+            <param name="entityId">A string that represents a unique Id for this entity.</param>
+            <param name="mode">The EntityMatchMode for the List entity. Strict means the captured entity must appear in the phrases list.</param>
+            <param name="phrases">A list of phrases used to match the list entity.</param>
+            <returns>The Pattern Matching Entity being created.</returns>
+        </member>
+        <member name="M:Microsoft.CognitiveServices.Speech.Intent.PatternMatchingEntity.CreateListEntity(System.String,Microsoft.CognitiveServices.Speech.Intent.EntityMatchMode,System.String[])">
+            <summary>
+            Creates a pattern matching entity using the specified intent ID, EntityMatchMode, phrases. This entity type will match based on the phrases provided.
+            </summary>
+            <param name="entityId">A string that represents a unique Id for this entity.</param>
+            <param name="mode">The EntityMatchMode for the List entity. Strict means the captured entity must appear in the phrases list.</param>
+            <param name="phrases">A list of phrases used to match the list entity.</param>
+            <returns>The Pattern Matching Entity being created.</returns>
+        </member>
+        <member name="T:Microsoft.CognitiveServices.Speech.Intent.EntityMatchMode">
+            <summary>
+            Used to define the match mode of an entity used for intent recognition. Currently this only affects List entities as all other entities only have one mode.
+            </summary>
+        </member>
+        <member name="F:Microsoft.CognitiveServices.Speech.Intent.EntityMatchMode.Basic">
+            <summary>
+            This is the basic or default mode of matching based on the EntityType.
+            </summary>
+        </member>
+        <member name="F:Microsoft.CognitiveServices.Speech.Intent.EntityMatchMode.Strict">
+            <summary>
+            This will match only exact matches within the entities phrases.
+            </summary>
+        </member>
+        <member name="F:Microsoft.CognitiveServices.Speech.Intent.EntityMatchMode.Fuzzy">
+            <summary>
+            This will match text within the slot the entity is in, but not require anything from that text.
+            </summary>
+        </member>
+        <member name="T:Microsoft.CognitiveServices.Speech.Intent.EntityType">
+            <summary>
+            Used to define the type of entity used for intent recognition.
+            </summary>
+        </member>
+        <member name="F:Microsoft.CognitiveServices.Speech.Intent.EntityType.Any">
+            <summary>
+            This will match any text that fills the slot.
+            </summary>
+        </member>
+        <member name="F:Microsoft.CognitiveServices.Speech.Intent.EntityType.List">
+            <summary>
+            This will match text that is contained within the list or any text if the mode is set to EntityMatchMode.Fuzzy.
+            </summary>
+        </member>
+        <member name="F:Microsoft.CognitiveServices.Speech.Intent.EntityType.PrebuiltInteger">
+            <summary>
+            This will match cardinal and ordinal integers.
+            </summary>
+        </member>
+        <member name="T:Microsoft.CognitiveServices.Speech.Intent.PatternMatchingEntityCollection">
+            <summary>
+            Represents a PatternMatchingEntity collection used for intent recognition.
+            </summary>
+        </member>
+        <member name="M:Microsoft.CognitiveServices.Speech.Intent.PatternMatchingEntityCollection.GetKeyForItem(Microsoft.CognitiveServices.Speech.Intent.PatternMatchingEntity)">
+            <summary>
+            Gets key for item/
+            </summary>
+            <param name="item">Item to get key of.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Microsoft.CognitiveServices.Speech.Intent.PatternMatchingIntent">
+            <summary>
+            Represents a pattern matching intent used for intent recognition.
+            </summary>
+        </member>
+        <member name="P:Microsoft.CognitiveServices.Speech.Intent.PatternMatchingIntent.IntentId">
+            <summary>
+            An Id used to define this PatternMatchingIntent. This Id will be used in the IntentRecognitionResult returned from the IntentRecognizer.
+            </summary>
+        </member>
+        <member name="P:Microsoft.CognitiveServices.Speech.Intent.PatternMatchingIntent.Phrases">
+            <summary>
+            Phrases and patterns that will trigger this intent. At least one phrase must exist to be able to
+            apply this intent to an IntentRecognizer.
+            </summary> 
+        </member>
+        <member name="M:Microsoft.CognitiveServices.Speech.Intent.PatternMatchingIntent.#ctor(System.String)">
+            <summary>
+            Creates a pattern matching intent using the specified intent Id.
+            </summary>
+            <param name="intentId">A string that represents a unique Id for this intent.</param>
+            <returns>The Pattern Matching Intent being created.</returns>
+        </member>
+        <member name="M:Microsoft.CognitiveServices.Speech.Intent.PatternMatchingIntent.#ctor(System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Creates a pattern matching intent using the specified intent Id and collection of phrases.
+            </summary>
+            <param name="intentId">A string that represents a unique Id for this intent.</param>
+            <param name="phrases">A list of phrases to be use to match the intent.</param>
+            <returns>The Pattern Matching Intent being created.</returns>
+        </member>
+        <member name="M:Microsoft.CognitiveServices.Speech.Intent.PatternMatchingIntent.#ctor(System.String,System.String[])">
+            <summary>
+            Creates a pattern matching intent using the specified intent Id.
+            </summary>
+            <param name="intentId">A string that represents a unique Id for this intent.</param>
+            <param name="phrases">A list of phrases to be use to match the intent.</param>
+            <returns>The Pattern Matching Intent being created.</returns>
+        </member>
+        <member name="T:Microsoft.CognitiveServices.Speech.Intent.PatternMatchingIntentCollection">
+            <summary>
+            Represents a pattern matching model intent collection used for intent recognition.
+            </summary>
+        </member>
+        <member name="M:Microsoft.CognitiveServices.Speech.Intent.PatternMatchingIntentCollection.GetKeyForItem(Microsoft.CognitiveServices.Speech.Intent.PatternMatchingIntent)">
+            <summary>
+            Gets key for PatternMatchingIntent item.
+            </summary>
+            <param name="item">Item to get key of.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Microsoft.CognitiveServices.Speech.Intent.PatternMatchingModel">
+            <summary>
+            Represents a pattern matching model used for intent recognition.
+            </summary>
+        </member>
+        <member name="P:Microsoft.CognitiveServices.Speech.Intent.PatternMatchingModel.Intents">
+            <summary>
+            This container of PatternMatchingIntents is used to define all the PatternMatchingIntents this model will look for.
+            </summary>
+        </member>
+        <member name="P:Microsoft.CognitiveServices.Speech.Intent.PatternMatchingModel.Entities">
+            <summary>
+            This container of PatternMatchingEntitys is used to define all the PatternMatchingEntitys this model will look for.
+            </summary>
+        </member>
+        <member name="P:Microsoft.CognitiveServices.Speech.Intent.PatternMatchingModel.ModelId">
+            <summary>
+            Unique Id for this model.
+            </summary>
+            <returns>A string representing the id of this model.</returns>
+        </member>
+        <member name="M:Microsoft.CognitiveServices.Speech.Intent.PatternMatchingModel.#ctor(System.String)">
+            <summary>
+            Creates a pattern matching model using the specified model ID.
+            </summary>
+            <param name="modelId">A string that represents a unique Id for this model.</param>
+            <returns>The Pattern Matching Model being created.</returns>
+        </member>
+        <member name="M:Microsoft.CognitiveServices.Speech.Intent.PatternMatchingModel.FromJSONFile(System.String)">
+            <summary>
+            Creates a pattern matching model using the specified .json file. This should follow the Microsoft LUIS JSON export schema.
+            </summary>
+            <param name="filepath">A string that representing the path to a '.json' file.</param>
+            <returns>A shared pointer to pattern matching model.</returns>
+        </member>
+        <member name="M:Microsoft.CognitiveServices.Speech.Intent.PatternMatchingModel.FromJSONFileStream(System.IO.Stream)">
+            <summary>
+            Creates a PatternMatchingModel using the specified istream pointing to an .json file in the LUIS json format.
+            This assumes the stream is already open and has permission to read.
+            </summary>
+            <param name="iStream">A stream that represents a '.json' file.</param>
+            <returns>A shared pointer to pattern matching model.</returns>
+        </member>
         <member name="T:Microsoft.CognitiveServices.Speech.DetailedSpeechRecognitionResultCollection">
             <summary>
             Collection of best recognitions.
@@ -2419,6 +3026,15 @@
             <param name="nativeMethod">The native method to read</param>
             <returns>The string value, or null. Throws an exception on errors</returns>
         </member>
+        <member name="M:Microsoft.CognitiveServices.Speech.Internal.ConversationTranslator.TryGetString``1(``0,Microsoft.CognitiveServices.Speech.Internal.ConversationTranslator.NativeReadString{``0})">
+            <summary>
+            Helper method to read a UTF8 string from native code
+            </summary>
+            <typeparam name="THandle">The native handle type.</typeparam>
+            <param name="handle">The native handle.</param>
+            <param name="nativeMethod">The native method to read</param>
+            <returns>The string value, or null in case of error. Does not throw an exception on errors</returns>
+        </member>
         <member name="M:Microsoft.CognitiveServices.Speech.Internal.ConversationTranslator.GetValue``1(Microsoft.CognitiveServices.Speech.Internal.InteropSafeHandle,Microsoft.CognitiveServices.Speech.Internal.ConversationTranslator.NativeReadValue{Microsoft.CognitiveServices.Speech.Internal.InteropSafeHandle,``0})">
             <summary>
             Helper method to read a value from native code
@@ -2427,6 +3043,15 @@
             <param name="handle">The native handle</param>
             <param name="method">The method to read from native code</param>
             <returns>The value or throws an exception on failure</returns>
+        </member>
+        <member name="M:Microsoft.CognitiveServices.Speech.Internal.ConversationTranslator.TryGetValue``1(Microsoft.CognitiveServices.Speech.Internal.InteropSafeHandle,Microsoft.CognitiveServices.Speech.Internal.ConversationTranslator.NativeReadValue{Microsoft.CognitiveServices.Speech.Internal.InteropSafeHandle,``0})">
+            <summary>
+            Helper method to read a value from native code
+            </summary>
+            <typeparam name="TValue">The value type to read</typeparam>
+            <param name="handle">The native handle</param>
+            <param name="method">The method to read from native code</param>
+            <returns>The value or null. Default value of the requested type is returned in case of failure</returns>
         </member>
         <member name="M:Microsoft.CognitiveServices.Speech.Internal.ConversationTranslator.GetValue``1(System.IntPtr,Microsoft.CognitiveServices.Speech.Internal.ConversationTranslator.NativeReadValue{System.IntPtr,``0})">
             <summary>
@@ -3026,13 +3651,12 @@
         </member>
         <member name="T:Microsoft.CognitiveServices.Speech.EmbeddedSpeechConfig">
             <summary>
-            Class that defines embedded (offline) configurations for speech recognition and speech synthesis.
+            Class that defines embedded (offline) speech configuration.
             </summary>
         </member>
         <member name="M:Microsoft.CognitiveServices.Speech.EmbeddedSpeechConfig.FromPath(System.String)">
             <summary>
-            Creates an instance of the embedded speech config with a specified offline model path
-            for speech recognition and/or synthesis.
+            Creates an instance of the embedded speech config with a specified offline model path.
             </summary>
             <param name="path">The folder path to search for offline models.
             This can be a root path under which several models are located in subfolders,
@@ -3042,8 +3666,7 @@
         </member>
         <member name="M:Microsoft.CognitiveServices.Speech.EmbeddedSpeechConfig.FromPaths(System.String[])">
             <summary>
-            Creates an instance of the embedded speech config with specified offline model paths
-            for speech recognition and/or synthesis.
+            Creates an instance of the embedded speech config with specified offline model paths.
             </summary>
             <param name="paths">The folder paths to search for offline models.
             These can be root paths under which several models are located in subfolders,
@@ -3130,6 +3753,24 @@
             <summary>
             Gets the output format of synthesized speech.
             Example value: `riff-16khz-16bit-mono-pcm`
+            </summary>
+        </member>
+        <member name="M:Microsoft.CognitiveServices.Speech.EmbeddedSpeechConfig.GetSpeechTranslationModels">
+            <summary>
+            Gets a list of available speech translation models.
+            </summary>
+            <returns>Speech translation model info.</returns>
+        </member>
+        <member name="M:Microsoft.CognitiveServices.Speech.EmbeddedSpeechConfig.SetSpeechTranslationModel(System.String,System.String)">
+            <summary>
+            Sets the model for speech translation.
+            </summary>
+            <param name="name">Model name.</param>
+            <param name="key">Model decryption key.</param>
+        </member>
+        <member name="P:Microsoft.CognitiveServices.Speech.EmbeddedSpeechConfig.SpeechTranslationModelName">
+            <summary>
+            Gets the model name for speech translation.
             </summary>
         </member>
         <member name="T:Microsoft.CognitiveServices.Speech.Diagnostics.Logging.EventLogger">
@@ -3365,558 +4006,6 @@
             <param name="id">The parameter id.</param>
             <returns>The property value.</returns>
         </member>
-        <member name="T:Microsoft.CognitiveServices.Speech.Intent.IntentRecognitionResult">
-            <summary>
-            Contains result of intent recognition.
-            </summary>
-        </member>
-        <member name="M:Microsoft.CognitiveServices.Speech.Intent.IntentRecognitionResult.#ctor(System.IntPtr)">
-            <summary>
-            Creates a new instance
-            </summary>
-            <param name="resultHandle">The native result handle</param>
-        </member>
-        <member name="P:Microsoft.CognitiveServices.Speech.Intent.IntentRecognitionResult.IntentId">
-            <summary>
-            A string that represents the intent identifier being recognized.
-            </summary>
-        </member>
-        <member name="P:Microsoft.CognitiveServices.Speech.Intent.IntentRecognitionResult.Entities">
-            <summary>
-            Gets the entities found in the utterance.
-            </summary>
-            <remarks>This does not currently support LUIS entities.</remarks>
-        </member>
-        <member name="M:Microsoft.CognitiveServices.Speech.Intent.IntentRecognitionResult.ToString">
-            <summary>
-            Returns a string that represents the intent recognition result.
-            </summary>
-            <returns>A string that represents the intent recognition result.</returns>
-        </member>
-        <member name="T:Microsoft.CognitiveServices.Speech.Intent.IntentRecognitionEventArgs">
-            <summary>
-            Contains payload of intent recognizing/recognized events.
-            </summary>
-        </member>
-        <member name="P:Microsoft.CognitiveServices.Speech.Intent.IntentRecognitionEventArgs.Result">
-            <summary>
-            Represents the intent recognition result.
-            </summary>
-        </member>
-        <member name="M:Microsoft.CognitiveServices.Speech.Intent.IntentRecognitionEventArgs.ToString">
-            <summary>
-            Returns a string that represents the session id and the intent recognition result event.
-            </summary>
-            <returns>A string that represents the intent recognition result event.</returns>
-        </member>
-        <member name="T:Microsoft.CognitiveServices.Speech.Intent.IntentRecognitionCanceledEventArgs">
-            <summary>
-            Contains payload of intent recognition canceled result events.
-            </summary>
-        </member>
-        <member name="P:Microsoft.CognitiveServices.Speech.Intent.IntentRecognitionCanceledEventArgs.Reason">
-            <summary>
-            The reason the result was canceled.
-            </summary>
-        </member>
-        <member name="P:Microsoft.CognitiveServices.Speech.Intent.IntentRecognitionCanceledEventArgs.ErrorCode">
-            <summary>
-            The error code in case of an unsuccessful recognition (<see cref="P:Microsoft.CognitiveServices.Speech.Intent.IntentRecognitionCanceledEventArgs.Reason"/> is set to Error).
-            If Reason is not Error, ErrorCode returns NoError.
-            Added in 1.1.0
-            </summary>
-        </member>
-        <member name="P:Microsoft.CognitiveServices.Speech.Intent.IntentRecognitionCanceledEventArgs.ErrorDetails">
-            <summary>
-            The error message in case of an unsuccessful recognition (<see cref="P:Microsoft.CognitiveServices.Speech.Intent.IntentRecognitionCanceledEventArgs.Reason"/> is set to Error).
-            </summary>
-        </member>
-        <member name="M:Microsoft.CognitiveServices.Speech.Intent.IntentRecognitionCanceledEventArgs.ToString">
-            <summary>
-            Returns a string that represents the session id and the intent recognition result event.
-            </summary>
-            <returns>A string that represents the intent recognition result event.</returns>
-        </member>
-        <member name="T:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer">
-             <summary>
-             Recognizes intents using a language understanding (LUIS) model or phrase. 
-             </summary>
-             <remarks>
-             Intents indicate what the user wishes to initiate or do based on options you define.
-             Successful intent recognition returns both recognized text and recognized intent.
-            
-             See also: [Get started with intent recognition](/azure/cognitive-services/speech-service/quickstarts/intent-recognition)
-             </remarks>
-        </member>
-        <member name="E:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.Recognizing">
-            <summary>
-            The event <see cref="E:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.Recognizing"/> signals that an intermediate recognition result is received.
-            </summary>
-        </member>
-        <member name="E:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.Recognized">
-            <summary>
-            The event <see cref="E:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.Recognized"/> signals that a final recognition result is received.
-            </summary>
-        </member>
-        <member name="E:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.Canceled">
-            <summary>
-            The event <see cref="E:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.Canceled"/> signals that the intent recognition was canceled.
-            </summary>
-        </member>
-        <member name="M:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.#ctor(Microsoft.CognitiveServices.Speech.SpeechConfig)">
-            <summary>
-            Creates a new instance of IntentRecognizer.
-            </summary>
-            <param name="speechConfig">Speech configuration</param>
-        </member>
-        <member name="M:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.#ctor(Microsoft.CognitiveServices.Speech.EmbeddedSpeechConfig)">
-            <summary>
-            Creates a new instance of IntentRecognizer using EmbeddedSpeechConfig,
-            configured to receive speech from the default microphone.
-            Added in 1.20.0
-            </summary>
-            <param name="speechConfig">Embedded speech configuration</param>
-        </member>
-        <member name="M:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.#ctor(Microsoft.CognitiveServices.Speech.SpeechConfig,Microsoft.CognitiveServices.Speech.Audio.AudioConfig)">
-            <summary>
-            Creates a new instance of IntentRecognizer.
-            </summary>
-            <param name="speechConfig">Speech configuration</param>
-            <param name="audioConfig">Audio configuration</param>
-        </member>
-        <member name="M:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.#ctor(Microsoft.CognitiveServices.Speech.EmbeddedSpeechConfig,Microsoft.CognitiveServices.Speech.Audio.AudioConfig)">
-            <summary>
-            Creates a new instance of IntentRecognizer using EmbeddedSpeechConfig,
-            configured to receive speech from an audio source specified in an AudioConfig object.
-            Added in 1.20.0
-            </summary>
-            <param name="speechConfig">Embedded speech configuration</param>
-            <param name="audioConfig">Audio configuration</param>
-        </member>
-        <member name="P:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.SpeechRecognitionLanguage">
-            <summary>
-            Gets the language name that is used for recognition.
-            </summary>
-        </member>
-        <member name="M:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.ApplyLanguageModels(Microsoft.CognitiveServices.Speech.Intent.LanguageUnderstandingModelCollection)">
-            <summary>
-            Takes a collection of language understanding models, makes a copy of them, and applies them to the recognizer. This application
-            takes effect at different times depending on the LanguageUnderstandingModel type.
-            PatternMatchingModels will become active immediately whereas
-            LanguageUnderstandingModels utilizing the LUIS service will become active immediately
-            unless the recognizer is in the middle of intent recognition in which case it will
-            take effect after the next Recognized event.
-            </summary>
-            <param name="collection">A LanguageUnderstandingModelCollection of shared pointers to LanguageUnderstandingModels.</param>
-            <remarks>This replaces any previously applied models.</remarks>
-            <returns>True if the application of the models takes effect immediately. Otherwise false.</returns>
-        </member>
-        <member name="P:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.AuthorizationToken">
-            <summary>
-            Gets or sets authorization token used to communicate with the service.
-              
-            Note: The caller needs to ensure that the authorization token is valid. Before the authorization token
-            expires, the caller needs to refresh it by calling this setter with a new valid token.
-            Otherwise, the recognizer will encounter errors during recognition.
-            </summary>
-        </member>
-        <member name="P:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.Properties">
-             <summary>
-             Gets the collection of properties and their values defined for this <see cref="T:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer"/>.
-             </summary>
-             <remarks>
-             The property collection is only valid until the recognizer owning this Properties is disposed or finalized.
-            
-             For a code example that displays the raw JSON results of an intent recognition, 
-             see [How to recognize intents from speech using the Speech SDK for C#](/azure/cognitive-services/speech-service/how-to-recognize-intents-from-speech-csharp).
-             </remarks>
-        </member>
-        <member name="M:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.RecognizeOnceAsync">
-             <summary>
-             Starts speech recognition with intent recognition as an asynchronous operation.
-             </summary>
-             <remarks>
-             The end of a single utterance is determined by listening for silence at the end, or until a timeout period has elapsed.
-             The task returns the intent in <see cref="P:Microsoft.CognitiveServices.Speech.Intent.IntentRecognitionResult.IntentId" /> 
-             and the recognized speech in <see cref="T:Microsoft.CognitiveServices.Speech.Translation.TranslationRecognitionResult" />.Text.
-             Intents are defined in the LUIS model or through an <see cref="M:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.AddIntent(System.String)" /> or <see cref="M:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.AddIntent(System.String,System.String)" />method.
-               
-             You can call <see cref="M:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.StopContinuousRecognitionAsync" />
-             to stop recognition before an intent has been recognized.
-               
-             Since this method returns only a single utterance, it is suitable only for single shot recognition like command or query. 
-             For long-running multi-utterance recognition, use <see cref="M:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.StartContinuousRecognitionAsync" /> instead.
-            
-             See also: [Get started with intent recognition](/azure/cognitive-services/speech-service/quickstarts/intent-recognition)
-             </remarks>
-             <returns>A task representing the recognition operation. The task returns a value of <see cref="T:Microsoft.CognitiveServices.Speech.Intent.IntentRecognitionResult"/></returns>
-        </member>
-        <member name="M:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.RecognizeOnceAsync(System.String)">
-            <summary>
-            Performs intent recognition, and generates a result from the text passed in. This is useful for testing and other times when the speech input
-            is not tied to the IntentRecognizer.
-            Note: The Intent Service does not currently support this so it is only valid for offline pattern matching or exact matching intents.
-            </summary>
-            <param name="text">The text to be recognized for intent.</param>
-            <returns>A task representing the recognition operation. The task returns a value of <see cref="T:Microsoft.CognitiveServices.Speech.Intent.IntentRecognitionResult"/></returns>
-        </member>
-        <member name="M:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.StartContinuousRecognitionAsync">
-            <summary>
-            Starts speech recognition on a continuous audio stream asynchronously, 
-            until <see cref="M:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.StopContinuousRecognitionAsync" /> is called.
-            </summary>
-            <remarks>
-            To receive recognition results, you must subscribe to events.
-            </remarks>
-            <returns>A task representing the asynchronous operation that starts the recognition.</returns>
-        </member>
-        <member name="M:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.StopContinuousRecognitionAsync">
-            <summary>
-            Stops a running recognition operation as soon as possible and immediately requests a result based on the
-            the input that has been processed so far. This works for all recognition operations, not just continuous
-            ones, and facilitates the use of push-to-talk or "finish now" buttons for manual audio endpointing.
-            </summary>
-            <returns>
-            A task that will complete when input processing has been stopped. Result generation, if applicable for the
-            input provided, may happen after this task completes and should be handled with the appropriate event.
-            </returns>
-        </member>
-        <member name="M:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.StartKeywordRecognitionAsync(Microsoft.CognitiveServices.Speech.KeywordRecognitionModel)">
-            <summary>
-            Configures the recognizer with the given keyword model. After calling this method, the recognizer is listening 
-            for the keyword to start the recognition. Call StopKeywordRecognitionAsync() to end the keyword initiated recognition.
-            You must subscribe to events to receive recognition results.
-            </summary>
-            <param name="model">The keyword recognition model that specifies the keyword to be recognized.</param>
-            <returns>A task representing the asynchronous operation that starts the recognition.</returns>
-        </member>
-        <member name="M:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.StopKeywordRecognitionAsync">
-            <summary>
-            Ends the keyword initiated recognition.
-            </summary>
-            <returns>A task representing the asynchronous operation that stops the recognition.</returns>
-        </member>
-        <member name="M:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.AddIntent(System.String)">
-            <summary>
-            Adds a simple phrase that may be spoken by the user, indicating a specific user intent.
-            </summary>
-            <param name="simplePhrase">The phrase corresponding to the intent.</param>
-            <remarks>Once recognized, the IntentRecognitionResult's IntentId property will match the simplePhrase specified here.</remarks>
-        </member>
-        <member name="M:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.AddIntent(System.String,System.String)">
-            <summary>
-            Adds a simple phrase that may be spoken by the user, indicating a specific user intent.
-            </summary>
-            <param name="simplePhrase">The phrase corresponding to the intent.</param>
-            <param name="intentId">A custom id string to be returned in the <see cref="P:Microsoft.CognitiveServices.Speech.Intent.IntentRecognitionResult.IntentId" /> property.</param>
-            <remarks>Once recognized, the result's intent id will match the id supplied here.</remarks>
-        </member>
-        <member name="M:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.AddIntent(Microsoft.CognitiveServices.Speech.Intent.LanguageUnderstandingModel,System.String)">
-            <summary>
-            Adds a single intent by name from the specified Language Understanding Model.
-            </summary>
-            <param name="model">The language understanding model containing the intent.</param>
-            <param name="intentName">The name of the single intent to be included from the language understanding model.</param>
-            <remarks>Once recognized, the <see cref="P:Microsoft.CognitiveServices.Speech.Intent.IntentRecognitionResult.IntentId" /> property will contain the intentName specified here.</remarks>
-        </member>
-        <member name="M:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.AddIntent(Microsoft.CognitiveServices.Speech.Intent.LanguageUnderstandingModel,System.String,System.String)">
-            <summary>
-            Adds a single intent by name from the specified Language Understanding Model.
-            </summary>
-            <param name="model">The language understanding model containing the intent.</param>
-            <param name="intentName">The name of the single intent to be included from the language understanding model.</param>
-            <param name="intentId">A custom id string to be returned in the IntentRecognitionResult's IntentId property.</param>
-        </member>
-        <member name="M:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.AddAllIntents(Microsoft.CognitiveServices.Speech.Intent.LanguageUnderstandingModel,System.String)">
-            <summary>
-            Adds all intents from the specified Language Understanding Model.
-            </summary>
-            <param name="model">The language understanding model from Language Understanding service.</param>
-            <param name="intentId">A custom string id to be returned in the <see cref="P:Microsoft.CognitiveServices.Speech.Intent.IntentRecognitionResult.IntentId" /> property.</param>
-        </member>
-        <member name="M:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.AddAllIntents(Microsoft.CognitiveServices.Speech.Intent.LanguageUnderstandingModel)">
-            <summary>
-            Adds all intents from the specified Language Understanding Model.
-            </summary>
-            <param name="model">The language understanding model from Language Understanding service.</param>
-        </member>
-        <member name="M:Microsoft.CognitiveServices.Speech.Intent.IntentRecognizer.Dispose(System.Boolean)">
-            <summary>
-            This method performs cleanup of resources.
-            The Boolean parameter <paramref name="disposing"/> indicates whether the method is called from <see cref="M:System.IDisposable.Dispose"/> (if <paramref name="disposing"/> is true) or from the finalizer (if <paramref name="disposing"/> is false).
-            Derived classes should override this method to dispose resource if needed.
-            </summary>
-            <param name="disposing">Flag to request disposal.</param>
-            <returns></returns>
-        </member>
-        <member name="T:Microsoft.CognitiveServices.Speech.Intent.LanguageUnderstandingModel">
-            <summary>
-            Represents language understanding model used for intent recognition.
-            </summary>
-            <remarks>
-            See also: [Add a LanguageUnderstandingModel and intents](/azure/cognitive-services/speech-service/quickstarts/intent-recognition)
-            </remarks>
-        </member>
-        <member name="P:Microsoft.CognitiveServices.Speech.Intent.LanguageUnderstandingModel.ModelId">
-            <summary>
-            Unique Id for this model.
-            </summary>
-            <returns>A string representing the id of this model.</returns>
-        </member>
-        <member name="M:Microsoft.CognitiveServices.Speech.Intent.LanguageUnderstandingModel.FromEndpoint(System.String)">
-            <summary>
-            Creates a language understanding model using the specified endpoint URL.
-            </summary>
-            <remarks>
-            The Speech SDK supports LUIS v2.0 and v3.0 endpoints. For details, see [Get started with intent recognition](https://docs.microsoft.com/azure/cognitive-services/speech-service/quickstarts/intent-recognition).
-            </remarks>
-            <param name="uri">Endpoint of the language understanding model.</param>
-            <returns>The language understanding model being created.</returns>
-        </member>
-        <member name="M:Microsoft.CognitiveServices.Speech.Intent.LanguageUnderstandingModel.FromAppId(System.String)">
-            <summary>
-            Creates a language understanding model using the application id of Language Understanding service.
-            </summary>
-            <remarks>
-            See also: [Add a LanguageUnderstandingModel and intents](/azure/cognitive-services/speech-service/quickstarts/intent-recognition)
-            </remarks>
-            <param name="appId">The app ID in the LUIS portal.</param>
-            <returns>The language understanding model being created.</returns>
-        </member>
-        <member name="M:Microsoft.CognitiveServices.Speech.Intent.LanguageUnderstandingModel.FromSubscription(System.String,System.String,System.String)">
-            <summary>
-            Creates a language understanding model using hostname, subscription key and application id of Language Understanding service.
-            </summary>
-            <param name="subscriptionKey">The subscription key of Language Understanding service.</param>
-            <param name="appId">The app ID in the LUIS portal.</param>
-            <param name="region">The region identifier for the given subscription key.</param>
-            <returns>The language understanding model being created.</returns>
-        </member>
-        <member name="T:Microsoft.CognitiveServices.Speech.Intent.LanguageUnderstandingModelCollection">
-            <summary>
-            Represents a collection of LanguageUnderstanding models used for intent recognition.
-            </summary>
-        </member>
-        <member name="M:Microsoft.CognitiveServices.Speech.Intent.LanguageUnderstandingModelCollection.GetKeyForItem(Microsoft.CognitiveServices.Speech.Intent.LanguageUnderstandingModel)">
-            <summary>
-            Gets key for item/
-            </summary>
-            <param name="item">Item to get key of.</param>
-            <returns></returns>
-        </member>
-        <member name="T:Microsoft.CognitiveServices.Speech.Intent.PatternMatchingEntity">
-            <summary>
-            Represents a pattern matching entity used for intent recognition.
-            </summary>
-        </member>
-        <member name="P:Microsoft.CognitiveServices.Speech.Intent.PatternMatchingEntity.EntityId">
-            <summary>
-            An Id used to define this entity if it is matched. This id must appear in an intent phrase
-            or the entity will never be matched.
-            </summary>
-        </member>
-        <member name="P:Microsoft.CognitiveServices.Speech.Intent.PatternMatchingEntity.Mode">
-            <summary>
-            The EntityMatchMode of this Entity.
-            </summary>
-        </member>
-        <member name="P:Microsoft.CognitiveServices.Speech.Intent.PatternMatchingEntity.Type">
-            <summary>
-            The EntityType of this Entity.
-            </summary>
-        </member>
-        <member name="P:Microsoft.CognitiveServices.Speech.Intent.PatternMatchingEntity.Phrases">
-            <summary>
-            A list of strings used to match the entity for List type entities. Strict Mode means the entity must appear in the list.
-            </summary>
-        </member>
-        <member name="M:Microsoft.CognitiveServices.Speech.Intent.PatternMatchingEntity.#ctor(System.String,Microsoft.CognitiveServices.Speech.Intent.EntityType,Microsoft.CognitiveServices.Speech.Intent.EntityMatchMode,System.Collections.Generic.IEnumerable{System.String})">
-            <summary>
-            Protected constructor that sets the properties with the input parameters.
-            </summary>
-            <param name="entityId">The entityId.</param>
-            <param name="type">The EntityType.</param>
-            <param name="mode">The EntityMatchMode.</param>
-            <param name="phrases"></param>
-        </member>
-        <member name="M:Microsoft.CognitiveServices.Speech.Intent.PatternMatchingEntity.CreateAnyEntity(System.String)">
-            <summary>
-            Creates a pattern matching entity using the specified intent ID.
-            </summary>
-            <param name="entityId">A string that represents a unique Id for this entity.</param>
-            <returns>The Pattern Matching Entity being created.</returns>
-        </member>
-        <member name="M:Microsoft.CognitiveServices.Speech.Intent.PatternMatchingEntity.CreateIntegerEntity(System.String)">
-            <summary>
-            Creates a pattern matching entity using the specified intent ID. The PrebuiltInteger Entity will match words representing numbers in lexical, digit, and ordinal formats.
-            </summary>
-            <param name="entityId">A string that represents a unique Id for this entity.</param>
-            <returns>The Pattern Matching Entity being created.</returns>
-        </member>
-        <member name="M:Microsoft.CognitiveServices.Speech.Intent.PatternMatchingEntity.CreateListEntity(System.String,Microsoft.CognitiveServices.Speech.Intent.EntityMatchMode,System.Collections.Generic.IEnumerable{System.String})">
-            <summary>
-            Creates a pattern matching entity using the specified intent ID, EntityMatchMode, phrases. This entity type will match based on the phrases provided.
-            </summary>
-            <param name="entityId">A string that represents a unique Id for this entity.</param>
-            <param name="mode">The EntityMatchMode for the List entity. Strict means the captured entity must appear in the phrases list.</param>
-            <param name="phrases">A list of phrases used to match the list entity.</param>
-            <returns>The Pattern Matching Entity being created.</returns>
-        </member>
-        <member name="M:Microsoft.CognitiveServices.Speech.Intent.PatternMatchingEntity.CreateListEntity(System.String,Microsoft.CognitiveServices.Speech.Intent.EntityMatchMode,System.String[])">
-            <summary>
-            Creates a pattern matching entity using the specified intent ID, EntityMatchMode, phrases. This entity type will match based on the phrases provided.
-            </summary>
-            <param name="entityId">A string that represents a unique Id for this entity.</param>
-            <param name="mode">The EntityMatchMode for the List entity. Strict means the captured entity must appear in the phrases list.</param>
-            <param name="phrases">A list of phrases used to match the list entity.</param>
-            <returns>The Pattern Matching Entity being created.</returns>
-        </member>
-        <member name="T:Microsoft.CognitiveServices.Speech.Intent.EntityMatchMode">
-            <summary>
-            Used to define the match mode of an entity used for intent recognition. Currently this only affects List entities as all other entities only have one mode.
-            </summary>
-        </member>
-        <member name="F:Microsoft.CognitiveServices.Speech.Intent.EntityMatchMode.Basic">
-            <summary>
-            This is the basic or default mode of matching based on the EntityType.
-            </summary>
-        </member>
-        <member name="F:Microsoft.CognitiveServices.Speech.Intent.EntityMatchMode.Strict">
-            <summary>
-            This will match only exact matches within the entities phrases.
-            </summary>
-        </member>
-        <member name="F:Microsoft.CognitiveServices.Speech.Intent.EntityMatchMode.Fuzzy">
-            <summary>
-            This will match text within the slot the entity is in, but not require anything from that text.
-            </summary>
-        </member>
-        <member name="T:Microsoft.CognitiveServices.Speech.Intent.EntityType">
-            <summary>
-            Used to define the type of entity used for intent recognition.
-            </summary>
-        </member>
-        <member name="F:Microsoft.CognitiveServices.Speech.Intent.EntityType.Any">
-            <summary>
-            This will match any text that fills the slot.
-            </summary>
-        </member>
-        <member name="F:Microsoft.CognitiveServices.Speech.Intent.EntityType.List">
-            <summary>
-            This will match text that is contained within the list or any text if the mode is set to EntityMatchMode.Fuzzy.
-            </summary>
-        </member>
-        <member name="F:Microsoft.CognitiveServices.Speech.Intent.EntityType.PrebuiltInteger">
-            <summary>
-            This will match cardinal and ordinal integers.
-            </summary>
-        </member>
-        <member name="T:Microsoft.CognitiveServices.Speech.Intent.PatternMatchingEntityCollection">
-            <summary>
-            Represents a PatternMatchingEntity collection used for intent recognition.
-            </summary>
-        </member>
-        <member name="M:Microsoft.CognitiveServices.Speech.Intent.PatternMatchingEntityCollection.GetKeyForItem(Microsoft.CognitiveServices.Speech.Intent.PatternMatchingEntity)">
-            <summary>
-            Gets key for item/
-            </summary>
-            <param name="item">Item to get key of.</param>
-            <returns></returns>
-        </member>
-        <member name="T:Microsoft.CognitiveServices.Speech.Intent.PatternMatchingIntent">
-            <summary>
-            Represents a pattern matching intent used for intent recognition.
-            </summary>
-        </member>
-        <member name="P:Microsoft.CognitiveServices.Speech.Intent.PatternMatchingIntent.IntentId">
-            <summary>
-            An Id used to define this PatternMatchingIntent. This Id will be used in the IntentRecognitionResult returned from the IntentRecognizer.
-            </summary>
-        </member>
-        <member name="P:Microsoft.CognitiveServices.Speech.Intent.PatternMatchingIntent.Phrases">
-            <summary>
-            Phrases and patterns that will trigger this intent. At least one phrase must exist to be able to
-            apply this intent to an IntentRecognizer.
-            </summary> 
-        </member>
-        <member name="M:Microsoft.CognitiveServices.Speech.Intent.PatternMatchingIntent.#ctor(System.String)">
-            <summary>
-            Creates a pattern matching intent using the specified intent Id.
-            </summary>
-            <param name="intentId">A string that represents a unique Id for this intent.</param>
-            <returns>The Pattern Matching Intent being created.</returns>
-        </member>
-        <member name="M:Microsoft.CognitiveServices.Speech.Intent.PatternMatchingIntent.#ctor(System.String,System.Collections.Generic.IEnumerable{System.String})">
-            <summary>
-            Creates a pattern matching intent using the specified intent Id and collection of phrases.
-            </summary>
-            <param name="intentId">A string that represents a unique Id for this intent.</param>
-            <param name="phrases">A list of phrases to be use to match the intent.</param>
-            <returns>The Pattern Matching Intent being created.</returns>
-        </member>
-        <member name="M:Microsoft.CognitiveServices.Speech.Intent.PatternMatchingIntent.#ctor(System.String,System.String[])">
-            <summary>
-            Creates a pattern matching intent using the specified intent Id.
-            </summary>
-            <param name="intentId">A string that represents a unique Id for this intent.</param>
-            <param name="phrases">A list of phrases to be use to match the intent.</param>
-            <returns>The Pattern Matching Intent being created.</returns>
-        </member>
-        <member name="T:Microsoft.CognitiveServices.Speech.Intent.PatternMatchingIntentCollection">
-            <summary>
-            Represents a pattern matching model intent collection used for intent recognition.
-            </summary>
-        </member>
-        <member name="M:Microsoft.CognitiveServices.Speech.Intent.PatternMatchingIntentCollection.GetKeyForItem(Microsoft.CognitiveServices.Speech.Intent.PatternMatchingIntent)">
-            <summary>
-            Gets key for PatternMatchingIntent item.
-            </summary>
-            <param name="item">Item to get key of.</param>
-            <returns></returns>
-        </member>
-        <member name="T:Microsoft.CognitiveServices.Speech.Intent.PatternMatchingModel">
-            <summary>
-            Represents a pattern matching model used for intent recognition.
-            </summary>
-        </member>
-        <member name="P:Microsoft.CognitiveServices.Speech.Intent.PatternMatchingModel.Intents">
-            <summary>
-            This container of PatternMatchingIntents is used to define all the PatternMatchingIntents this model will look for.
-            </summary>
-        </member>
-        <member name="P:Microsoft.CognitiveServices.Speech.Intent.PatternMatchingModel.Entities">
-            <summary>
-            This container of PatternMatchingEntitys is used to define all the PatternMatchingEntitys this model will look for.
-            </summary>
-        </member>
-        <member name="P:Microsoft.CognitiveServices.Speech.Intent.PatternMatchingModel.ModelId">
-            <summary>
-            Unique Id for this model.
-            </summary>
-            <returns>A string representing the id of this model.</returns>
-        </member>
-        <member name="M:Microsoft.CognitiveServices.Speech.Intent.PatternMatchingModel.#ctor(System.String)">
-            <summary>
-            Creates a pattern matching model using the specified model ID.
-            </summary>
-            <param name="modelId">A string that represents a unique Id for this model.</param>
-            <returns>The Pattern Matching Model being created.</returns>
-        </member>
-        <member name="M:Microsoft.CognitiveServices.Speech.Intent.PatternMatchingModel.FromJSONFile(System.String)">
-            <summary>
-            Creates a pattern matching model using the specified .json file. This should follow the Microsoft LUIS JSON export schema.
-            </summary>
-            <param name="filepath">A string that representing the path to a '.json' file.</param>
-            <returns>A shared pointer to pattern matching model.</returns>
-        </member>
-        <member name="M:Microsoft.CognitiveServices.Speech.Intent.PatternMatchingModel.FromJSONFileStream(System.IO.Stream)">
-            <summary>
-            Creates a PatternMatchingModel using the specified istream pointing to an .json file in the LUIS json format.
-            This assumes the stream is already open and has permission to read.
-            </summary>
-            <param name="iStream">A stream that represents a '.json' file.</param>
-            <returns>A shared pointer to pattern matching model.</returns>
-        </member>
         <member name="T:Microsoft.CognitiveServices.Speech.KeywordRecognitionModel">
             <summary>
             Represents keyword recognition model that can trigger an event when pre-defined keywords are spoken.
@@ -4092,6 +4181,11 @@
             <summary>
             Indicates that the recognized keyword was rejected by the keyword verification service.
             Added in 1.5.0
+            </summary>
+        </member>
+        <member name="F:Microsoft.CognitiveServices.Speech.NoMatchReason.EndSilenceTimeout">
+            <summary>
+            Indicates that the audio stream contained only silence after the last recognized phrase.
             </summary>
         </member>
         <member name="T:Microsoft.CognitiveServices.Speech.OutputFormat">
@@ -4378,8 +4472,7 @@
         </member>
         <member name="T:Microsoft.CognitiveServices.Speech.PropertyId">
             <summary>
-            Lists speech property ids.
-            Changed in 1.9.0
+            Lists speech property IDs.
             </summary>
         </member>
         <member name="F:Microsoft.CognitiveServices.Speech.PropertyId.SpeechServiceConnection_Key">
@@ -4627,7 +4720,9 @@
         <member name="F:Microsoft.CognitiveServices.Speech.PropertyId.SpeechServiceConnection_EnableAudioLogging">
             <summary>
             A boolean value specifying whether audio logging is enabled in the service or not.
-            Added in 1.5.0
+            Audio and content logs are stored either in Microsoft-owned storage, or in your own storage account linked
+            to your Cognitive Services subscription (Bring Your Own Storage (BYOS) enabled Speech resource).
+            Added in 1.5.0.
             </summary>
         </member>
         <member name="F:Microsoft.CognitiveServices.Speech.PropertyId.SpeechServiceConnection_AutoDetectSourceLanguages">
@@ -4642,18 +4737,12 @@
             Added in 1.9.0
             </summary>
         </member>
-        <member name="F:Microsoft.CognitiveServices.Speech.PropertyId.SpeechServiceConnection_SingleLanguageIdPriority">
+        <member name="F:Microsoft.CognitiveServices.Speech.PropertyId.SpeechServiceConnection_LanguageIdMode">
             <summary>
-            The speech service connection single language identifier priority
-            Can be Latency, or Accuracy
-            Added in 1.17.0
-            </summary>
-        </member>
-        <member name="F:Microsoft.CognitiveServices.Speech.PropertyId.SpeechServiceConnection_ContinuousLanguageIdPriority">
-            <summary>
-            The speech service connection continuous language identifier priority
-            Can be Latency, or Accuracy (for standalone languageId)
-            Added in 1.17.0
+            The speech service connection language identifier mode.
+            Can be "AtStart" (the default), or "Continuous". See [Language
+            Identification](https://aka.ms/speech/lid?pivots=programming-language-csharp) document.
+            Added in 1.25.0
             </summary>
         </member>
         <member name="F:Microsoft.CognitiveServices.Speech.PropertyId.SpeechServiceResponse_RequestDetailedResultTrueFalse">
@@ -4775,6 +4864,27 @@
             The underrun time for speech synthesis in milliseconds. Read-only, available on results in SynthesisCompleted events.
             This measures the total underrun time from <see cref="F:Microsoft.CognitiveServices.Speech.PropertyId.AudioConfig_PlaybackBufferLengthInMs"/> is filled to synthesis completed.
             Added in version 1.17.0.
+            </summary>
+        </member>
+        <member name="F:Microsoft.CognitiveServices.Speech.PropertyId.SpeechServiceResponse_SynthesisConnectionLatencyMs">
+            <summary>
+            The speech synthesis connection latency in milliseconds. Read-only, available on final speech synthesis results.
+            This measures the latency between when the synthesis is started to be processed, and the moment the HTTP/WebSocket connection is established.
+            Added in version 1.26.0.
+            </summary>
+        </member>
+        <member name="F:Microsoft.CognitiveServices.Speech.PropertyId.SpeechServiceResponse_SynthesisNetworkLatencyMs">
+            <summary>
+            The speech synthesis network latency in milliseconds. Read-only, available on final speech synthesis results.
+            This measures the network round trip time.
+            Added in version 1.26.0.
+            </summary>
+        </member>
+        <member name="F:Microsoft.CognitiveServices.Speech.PropertyId.SpeechServiceResponse_SynthesisServiceLatencyMs">
+            <summary>
+            The speech synthesis service latency in milliseconds. Read-only, available on final speech synthesis results.
+            This measures the service processing time to synthesize the first byte of audio.
+            Added in version 1.26.0.
             </summary>
         </member>
         <member name="F:Microsoft.CognitiveServices.Speech.PropertyId.SpeechServiceResponse_SynthesisBackend">
@@ -4978,6 +5088,20 @@
             <summary>
             Speaker recognition API version.
             Added in 1.18.0
+            </summary>
+        </member>
+        <member name="F:Microsoft.CognitiveServices.Speech.PropertyId.SpeechTranslation_ModelName">
+            <summary>
+            The name of a model to be used for speech translation.
+            Do not use this property directly.
+            Currently this is only valid when EmbeddedSpeechConfig is used.
+            </summary>
+        </member>
+        <member name="F:Microsoft.CognitiveServices.Speech.PropertyId.SpeechTranslation_ModelKey">
+            <summary>
+            The decryption key of a model to be used for speech translation.
+            Do not use this property directly.
+            Currently this is only valid when EmbeddedSpeechConfig is used.
             </summary>
         </member>
         <member name="T:Microsoft.CognitiveServices.Speech.ResultReason">
@@ -5482,63 +5606,13 @@
             <returns>A new SourceLanguageConfig instance.</returns>
         </member>
         <member name="T:Microsoft.CognitiveServices.Speech.SourceLanguageRecognizer">
-             <summary>
-             Detects the source language from audio stream
-             Added in version 1.17.0
-             </summary>
-             <remarks>
-             See also: [Automatic language detection for speech to text](/azure/cognitive-services/speech-service/how-to-automatic-language-detection?pivots=programming-language-csharp)
-             </remarks>
-             <example>
-             This example uses the source language recognizer from a microphone and receives events generated by the recognizer.
-             <code language="c#">
-             public async Task SourceLanguageContinuousRecognitionAsync()
-             {
-                 // Creates an instance of a speech config with specified subscription key and region.
-                 // Replace with your own subscription key and service region (e.g., "westus").
-                 var config = SpeechConfig.FromSubscription("YourSubscriptionKey", "YourServiceRegion");
-                 config.SetProperty(PropertyId.SpeechServiceConnection_ContinuousLanguageIdPriority, "Latency");
-            
-                 // Creates a source language recognizer from microphone.
-                 using (var sourceLanguageRecognizer = new SourceLanguageRecognizer(config))
-                 {
-                     sourceLanguageRecognizer.Recognized += (s, e) => {
-                         var result = e.Result;
-                         Console.WriteLine($"Reason: {result.Reason.ToString()}");
-                         if (result.Reason == ResultReason.RecognizedSpeech)
-                         {
-                             var lidResult = AutoDetectSourceLanguageResult.FromResult(e.Result);
-                             Console.WriteLine($"RECOGNIZED: Language={lidResult.Language}");
-                         }
-                     };
-            
-                     sourceLanguageRecognizer.Canceled += (s, e) => {
-                         Console.WriteLine($"\n    Canceled. Reason: {e.Reason.ToString()}, CanceledReason: {e.Reason}");
-                     };
-            
-                     sourceLanguageRecognizer.SessionStarted += (s, e) => {
-                         Console.WriteLine("\n    Session started event.");
-                     };
-            
-                     sourceLanguageRecognizer.SessionStopped += (s, e) => {
-                         Console.WriteLine("\n    Session stopped event.");
-                     };
-            
-                     // Starts continuous recognition. 
-                     // Uses StopContinuousRecognitionAsync() to stop recognition.
-                     await sourceLanguageRecognizer.StartContinuousRecognitionAsync().ConfigureAwait(false);
-            
-                     do
-                     {
-                         Console.WriteLine("Press Enter to stop");
-                     } while (Console.ReadKey().Key != ConsoleKey.Enter);
-            
-                     // Stops recognition.
-                     await sourceLanguageRecognizer.StopContinuousRecognitionAsync().ConfigureAwait(false);
-                 }
-             }
-             </code>
-             </example>
+            <summary>
+            Detects the spoken language on the input audio.
+            Added in version 1.17.0
+            </summary>
+            <remarks>
+            See [Language Identification](https://aka.ms/speech/lid?pivots=programming-language-csharp) document.
+            </remarks>
         </member>
         <member name="E:Microsoft.CognitiveServices.Speech.SourceLanguageRecognizer.Recognized">
             <summary>
@@ -5604,59 +5678,6 @@
              See also: [Automatic language detection for speech to text](/azure/cognitive-services/speech-service/how-to-automatic-language-detection?pivots=programming-language-csharp)
              </remarks>
              <returns>A task representing the recognition operation. The task returns a value of <see cref="T:Microsoft.CognitiveServices.Speech.SpeechRecognitionResult"/> </returns>
-             <example>
-             The following example creates a source language recognizer, and then gets and prints the recognition result.
-             <code language="c#">
-             public async Task SingleLanguageIdRecognitionAsync()
-             {
-                 // Creates an instance of a speech config with specified subscription key and region.
-                 // Replace with your own subscription key and service region (e.g., "westus").
-                 var config = SpeechConfig.FromSubscription("YourSubscriptionKey", "YourServiceRegion");
-                 config.SetProperty(PropertyId.SpeechServiceConnection_SingleLanguageIdPriority, "Latency");
-            
-                 // Creates a speech recognizer using microphone as audio input. Default language: en-us
-                 using (var sourceLanguageRecognizer = new SourceLanguageRecognizer(config))
-                 {
-                     Console.WriteLine("Say something...");
-             
-                     // Starts source language recognition, and returns after a single utterance is recognized. 
-                     // The end of a single utterance is determined by listening for silence at the end 
-                     // or until a timeout period has elapsed.  The task returns the
-                     // recognition text as result.
-                     //
-                     // Note: Since RecognizeOnceAsync() returns only a single utterance, 
-                     // it is suitable only for single shot recognition like command or query.
-                     // For long-running multi-utterance recognition, 
-                     // use StartContinuousRecognitionAsync() instead.
-             
-                     var result = await sourceLanguageRecognizer.RecognizeOnceAsync();
-             
-                     // Checks result.
-                     if (result.Reason == ResultReason.RecognizedSpeech)
-                     {
-                         var lidResult = AutoDetectSourceLanguageResult.FromResult(e.Result);
-                         Console.WriteLine($"RECOGNIZED: Language={lidResult.Language}");
-                     }
-                     else if (result.Reason == ResultReason.NoMatch)
-                     {
-                         Console.WriteLine($"NOMATCH: Speech could not be recognized.");
-                     }
-                     else if (result.Reason == ResultReason.Canceled)
-                     {
-                         var cancellation = CancellationDetails.FromResult(result);
-                         Console.WriteLine($"CANCELED: Reason={cancellation.Reason}");
-             
-                         if (cancellation.Reason == CancellationReason.Error)
-                         {
-                             Console.WriteLine($"CANCELED: ErrorCode={cancellation.ErrorCode}");
-                             Console.WriteLine($"CANCELED: ErrorDetails={cancellation.ErrorDetails}");
-                             Console.WriteLine($"CANCELED: Did you update the subscription info?");
-                         }
-                     }
-                 }
-             }
-             </code>
-             </example>
         </member>
         <member name="M:Microsoft.CognitiveServices.Speech.SourceLanguageRecognizer.StartContinuousRecognitionAsync">
             <summary>
@@ -6369,6 +6390,12 @@
             <param name="text">The text representing a phrase that can be spoken by the user.</param>
             <returns>A shared pointer to a grammar phrase.</returns>
         </member>
+        <member name="M:Microsoft.CognitiveServices.Speech.GrammarPhrase.Dispose(System.Boolean)">
+            <summary>
+            Clean up resources.
+            </summary>
+            <param name="disposing"></param>
+        </member>
         <member name="M:Microsoft.CognitiveServices.Speech.GrammarPhrase.#ctor(System.IntPtr)">
             <summary>
             Internal constructor. Creates a new instance using the provided native handle.
@@ -6681,10 +6708,13 @@
         </member>
         <member name="M:Microsoft.CognitiveServices.Speech.SpeechConfig.EnableAudioLogging">
             <summary>
-            Enable audio logging in service.
-            Audio logging writes log information and diagnostics to a local file.
+            Enable audio and content logging in the service.
             Added in 1.5.0
             </summary>
+            <remarks>
+            Audio and content logs are stored either in Microsoft-owned storage, or in your own storage account linked
+            to your Cognitive Services subscription (Bring Your Own Storage (BYOS) enabled Speech resource).
+            </remarks>
         </member>
         <member name="M:Microsoft.CognitiveServices.Speech.SpeechConfig.RequestWordLevelTimestamps">
             <summary>
@@ -7168,6 +7198,12 @@
             See also: <see cref="E:Microsoft.CognitiveServices.Speech.SpeechSynthesizer.BookmarkReached" />
             </remarks>
         </member>
+        <member name="P:Microsoft.CognitiveServices.Speech.SpeechSynthesisBookmarkEventArgs.ResultId">
+            <summary>
+            Specifies unique ID of speech synthesis.
+            (Added in version 1.25.0)
+            </summary>
+        </member>
         <member name="P:Microsoft.CognitiveServices.Speech.SpeechSynthesisBookmarkEventArgs.AudioOffset">
             <summary>
             Specifies current bookmark's offset in output audio, in ticks (100ns).
@@ -7540,6 +7576,12 @@
             * [Get facial pose events](/azure/cognitive-services/speech-service/how-to-speech-synthesis-viseme?pivots=programming-language-csharp)
             </remarks>
         </member>
+        <member name="P:Microsoft.CognitiveServices.Speech.SpeechSynthesisVisemeEventArgs.ResultId">
+            <summary>
+            Specifies unique ID of speech synthesis.
+            (Added in version 1.25.0)
+            </summary>
+        </member>
         <member name="P:Microsoft.CognitiveServices.Speech.SpeechSynthesisVisemeEventArgs.AudioOffset">
             <summary>
             Specifies the time offset of the current viseme in output audio, in ticks (100ns).
@@ -7563,6 +7605,12 @@
             <remarks>
             See also: <see cref="E:Microsoft.CognitiveServices.Speech.SpeechSynthesizer.WordBoundary" />
             </remarks>
+        </member>
+        <member name="P:Microsoft.CognitiveServices.Speech.SpeechSynthesisWordBoundaryEventArgs.ResultId">
+            <summary>
+            Specifies unique ID of speech synthesis.
+            (Added in version 1.25.0)
+            </summary>
         </member>
         <member name="P:Microsoft.CognitiveServices.Speech.SpeechSynthesisWordBoundaryEventArgs.AudioOffset">
             <summary>
@@ -7904,6 +7952,42 @@
             Specifies the name of voice tag if a synthesized audio output is desired.
             </summary>
         </member>
+        <member name="T:Microsoft.CognitiveServices.Speech.SpeechTranslationModel">
+            <summary>
+            Speech translation model information.
+            </summary>
+        </member>
+        <member name="P:Microsoft.CognitiveServices.Speech.SpeechTranslationModel.Name">
+            <summary>
+            Gets the model name.
+            </summary>
+        </member>
+        <member name="P:Microsoft.CognitiveServices.Speech.SpeechTranslationModel.SourceLanguages">
+            <summary>
+            Gets the source languages that the model supports.
+            </summary>
+        </member>
+        <member name="P:Microsoft.CognitiveServices.Speech.SpeechTranslationModel.TargetLanguages">
+            <summary>
+            Gets the target languages that the model supports.
+            </summary>
+        </member>
+        <member name="P:Microsoft.CognitiveServices.Speech.SpeechTranslationModel.Path">
+            <summary>
+            Gets the model path (only valid for offline models).
+            </summary>
+        </member>
+        <member name="P:Microsoft.CognitiveServices.Speech.SpeechTranslationModel.Version">
+            <summary>
+            Gets the model version.
+            </summary>
+        </member>
+        <member name="M:Microsoft.CognitiveServices.Speech.SpeechTranslationModel.Dispose(System.Boolean)">
+            <summary>
+            Clean up resources.
+            </summary>
+            <param name="disposing"></param>
+        </member>
         <member name="T:Microsoft.CognitiveServices.Speech.StreamStatus">
             <summary>
             Lists possible status values of an audio data stream.
@@ -8213,11 +8297,37 @@
             </summary>
             <param name="config">Translation config.</param>
         </member>
+        <member name="M:Microsoft.CognitiveServices.Speech.Translation.TranslationRecognizer.#ctor(Microsoft.CognitiveServices.Speech.EmbeddedSpeechConfig)">
+            <summary>
+            Creates a translation recognizer using the default microphone input for a specified embedded speech configuration.
+            </summary>
+            <param name="config">Embedded speech config.</param>
+        </member>
+        <member name="M:Microsoft.CognitiveServices.Speech.Translation.TranslationRecognizer.#ctor(Microsoft.CognitiveServices.Speech.HybridSpeechConfig)">
+            <summary>
+            Creates a translation recognizer using the default microphone input for a specified hybrid speech configuration.
+            </summary>
+            <param name="config">Hybrid speech config.</param>
+        </member>
         <member name="M:Microsoft.CognitiveServices.Speech.Translation.TranslationRecognizer.#ctor(Microsoft.CognitiveServices.Speech.SpeechTranslationConfig,Microsoft.CognitiveServices.Speech.Audio.AudioConfig)">
             <summary>
             Creates a translation recognizer using the specified speech translator and audio configuration.
             </summary>
             <param name="config">Translation config.</param>
+            <param name="audioConfig">Audio config.</param>
+        </member>
+        <member name="M:Microsoft.CognitiveServices.Speech.Translation.TranslationRecognizer.#ctor(Microsoft.CognitiveServices.Speech.EmbeddedSpeechConfig,Microsoft.CognitiveServices.Speech.Audio.AudioConfig)">
+            <summary>
+            Creates a translation recognizer using the specified embedded speech translator and audio configuration.
+            </summary>
+            <param name="config">Embedded speech config.</param>
+            <param name="audioConfig">Audio config.</param>
+        </member>
+        <member name="M:Microsoft.CognitiveServices.Speech.Translation.TranslationRecognizer.#ctor(Microsoft.CognitiveServices.Speech.HybridSpeechConfig,Microsoft.CognitiveServices.Speech.Audio.AudioConfig)">
+            <summary>
+            Creates a translation recognizer using the specified hybrid speech translator and audio configuration.
+            </summary>
+            <param name="config">Hybrid speech config.</param>
             <param name="audioConfig">Audio config.</param>
         </member>
         <member name="M:Microsoft.CognitiveServices.Speech.Translation.TranslationRecognizer.#ctor(Microsoft.CognitiveServices.Speech.SpeechTranslationConfig,Microsoft.CognitiveServices.Speech.AutoDetectSourceLanguageConfig)">

@@ -1,0 +1,114 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous"></script>
+
+<h2>Index</h2>
+<h2>@ViewBag.Message</h2>
+<div>
+    <div id="detail">
+        <h2>檔案</h2>
+        <table border="1" id="mytable" class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">編號</th>
+                    <th scope="col">檔名</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            @*轉換       呼叫方法名         回傳的值*@
+            @*@using (Html.BeginForm("Translate", "Upload", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {*@
+            <tbody>
+                @{ int i = 1;
+                    @*@Html.AntiForgeryToken()*@
+                    //foreach (FileModel file in Model)
+                    //{
+                    <tr>
+                        <td scope="row">@i</td>
+                        @*<td id="a">@file.Filename</td>*@
+                        <td><button class="gotranscribe">轉換</button></td>
+                        @*下面這兩個寫法不行*@
+                        @*<td><a href="@Url.Action("Translate", "Upload", new { filename = file.Filename })">轉換</a></td>
+                            <td>@Html.ActionLink("Upload", "Translate", new { filename = file.Filename })</td>*@
+                    </tr>
+                    i++;
+
+                    @*  *@}
+                }
+            </tbody>
+            @*}*@
+        </table>
+
+    </div>
+    <div id="resultArea"></div>
+    <div>
+        @ViewBag.txtRes
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        //const fs = require('fs');
+        //const axios = require('axios');
+        //const formData = require('form-data');
+
+        //const subscriptionKey = '2581928f7d5042e190f8fb24c94540a1';
+        //const region = 'eastus';
+
+        //async function createProfile() {
+        //    let form = new formData();
+        //    form.append('file', fs.createReadStream('D:\\radio\\enrollment_audio_katie.wav'));
+        //    let headers = form.getHeaders();
+        //    headers['Ocp-Apim-Subscription-Key'] = subscriptionKey;
+
+        //    let url = `https://signature.${region}.cts.speech.microsoft.com/api/v1/Signature/GenerateVoiceSignatureFromFormData`;
+        //    let response = await axios.post(url, form, { headers: headers });
+
+        //    // get signature from response, serialize to json string
+        //    return JSON.stringify(response.data.Signature);
+        //}
+
+        //async function main() {
+        //    // use this voiceSignature string with meeting transcription calls below
+        //    let voiceSignatureString = await createProfile();
+        //    console.log(voiceSignatureString);
+        //}
+        //main();
+
+        var a = $('#filename').val();
+        console.log(a);
+        $('.gotranscribe').each(function () {
+            $(this).click(function () {
+                var filename = $(this).data("filename");
+                $('#resultArea').empty();
+                turn(filename);
+            })
+        });
+    });
+    function turn(ffname) {
+        $('#resultArea').empty();
+        console.log(ffname);
+        $.ajax({
+            //url: "/Upload/Translate",
+            url: "/Transcribe/TranscribeConversationsAsync",
+            type: 'POST',
+            contentType: "application/json",
+            dataType: "text",
+            success: function (result) {
+                $('#resultArea').html("語音轉文字:<br/>" + result);
+                console.log("success");
+                console.log(result)
+            },
+            error: function (result) {
+                console.log("error");
+            }
+        })
+    };
+</script>

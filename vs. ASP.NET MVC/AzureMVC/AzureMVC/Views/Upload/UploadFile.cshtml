@@ -80,7 +80,7 @@
         @using (Html.BeginForm("UploadFile", "Upload", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
             <label for="audioFile" class="btn btn-outline-success">
-                @Html.TextBox("audioFile", "", new { id = "filename", type = "file", accept = ".wav", @class = "form-control-file", style = "dissplay:none", onchange = "changefile()" })
+                @Html.TextBox("audioFile", "", new { id = "filename", type = "file", accept = ".wav,.mp3,.m4a", @class = "form-control-file", onchange = "changefile()" })
             </label><br />
             <p></p>
             <input type="submit" id="uploadFile" value="上傳並轉換" class="btn btn-primary" disabled="disabled" />
@@ -153,6 +153,33 @@
             }
         })
         $(document).ready(function () {
+            //const fs = require('fs');
+            //const axios = require('axios');
+            //const formData = require('form-data');
+
+            //const subscriptionKey = '2581928f7d5042e190f8fb24c94540a1';
+            //const region = 'eastus';
+
+            //async function createProfile() {
+            //    let form = new formData();
+            //    form.append('file', fs.createReadStream('D:\\radio\\enrollment_audio_katie.wav'));
+            //    let headers = form.getHeaders();
+            //    headers['Ocp-Apim-Subscription-Key'] = subscriptionKey;
+
+            //    let url = `https://signature.${region}.cts.speech.microsoft.com/api/v1/Signature/GenerateVoiceSignatureFromFormData`;
+            //    let response = await axios.post(url, form, { headers: headers });
+
+            //    // get signature from response, serialize to json string
+            //    return JSON.stringify(response.data.Signature);
+            //}
+
+            //async function main() {
+            //    // use this voiceSignature string with meeting transcription calls below
+            //    let voiceSignatureString = await createProfile();
+            //    console.log(voiceSignatureString);
+            //}
+            //main();
+
             $('#imggif').hide();
             var a = $('#filename').val();
             console.log(a);
@@ -170,6 +197,7 @@
             console.log(ffname);
             $.ajax({
                 url: "/Upload/Translate",
+                //url: "/Upload/TranscribeConversationsAsync",
                 type: 'POST',
                 data: JSON.stringify({
                     filename: ffname
