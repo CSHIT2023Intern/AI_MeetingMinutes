@@ -13,14 +13,14 @@ import pyaudio
 
 app = Flask(__name__)
 
-# 設置open api 端點
-openai.api_type = "azure"
-openai.api_base = "https://cshitinternopenai.openai.azure.com/"
-openai.api_version = "2023-03-15-preview"
-openai.api_key = "0be4adcd512d4b09b7e44d50325f4bf9"
+# 設置open api 端點 ****這裡要自己加，怕危險
+openai.api_type = ""
+openai.api_base = ""
+openai.api_version = ""
+openai.api_key = ""
 
-SPEECH_KEY = "c9d3e6d440214af3bc175d4c31809a44"
-SPEECH_REGION = "eastasia"
+SPEECH_KEY = ""
+SPEECH_REGION = ""
 
 
 @app.route('/')

@@ -22,8 +22,9 @@ namespace AzureMVC.Controllers
     {
         private static string voiceSignatureUser1, voiceSignatureWaveFileUser1;
         private static string voiceSignatureUser2, voiceSignatureWaveFileUser2;
-        private static string subscriptionKey = "2581928f7d5042e190f8fb24c94540a1";
-        private static string serviceRegion = "eastus";
+       //這裡要自己加
+        private static string subscriptionKey = "";
+        private static string serviceRegion = "";
         static StringBuilder CognizeText = new StringBuilder();
 
 

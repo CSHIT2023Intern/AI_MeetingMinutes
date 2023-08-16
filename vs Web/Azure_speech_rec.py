@@ -2,8 +2,9 @@
 import os
 import azure.cognitiveservices.speech as speechsdk
 
-SPEECH_KEY = "c9d3e6d440214af3bc175d4c31809a44"
-SPEECH_REGION = "eastasia"
+#這裡要自己加
+SPEECH_KEY = ""
+SPEECH_REGION = ""
 
 def recognize_from_microphone():
     # This example requires environment variables named "SPEECH_KEY" and "SPEECH_REGION"

@@ -2,20 +2,20 @@
 
 # import os
 # import openai
-# # openai.organization = "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"
-# openai.api_key = os.getenv("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")
+# # openai.organization = ""
+# openai.api_key = os.getenv("") #要自己加
 # openai.Model.list()
 
 # import os
 # import openai
-# openai.organization = "org-bWTePyiJSiaokFMvqUaQNGkT"
-# openai.organization = "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"
+# openai.organization = ""  #要自己加
+# openai.organization = ""  #要自己加
 # openai.Model.list()
 
 # import os
 # import openai
 # import whisper
-# openai.api_key = "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"
+# openai.api_key = ""  #要自己加
 # audio_file = open("test.wav", "rb")
 # id = "whisper-1"
 # response = openai.Audio.transcribe(
@@ -28,7 +28,7 @@
 import os
 import openai
 import whisper
-API_KEY = "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"
+API_KEY = "" #要自己加
 audio_file = open("test.wav", "rb")
 id = "whisper-1"
 response = openai.Audio.transcribe(

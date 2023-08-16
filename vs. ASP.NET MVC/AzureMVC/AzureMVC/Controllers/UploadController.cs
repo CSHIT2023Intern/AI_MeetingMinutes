@@ -27,8 +27,8 @@ namespace AzureMVC.Controllers
 
         static string speechKey = Environment.GetEnvironmentVariable("SPEECH_KEY");//這裡因為我在cmd裡把SPEECH_KEY設為c9d3e6d440214af3bc175d4c31809a44
         static string speechRegion = Environment.GetEnvironmentVariable("SPEECH_REGION");//SPEECH_REGION為eastasia
-        static string subscriptionKey = "2581928f7d5042e190f8fb24c94540a1";
-        static string serviceRegion = "eastus";
+        static string subscriptionKey = "";
+        static string serviceRegion = "";
         static StringBuilder all_result = new StringBuilder();
         static StringBuilder TextResult = new StringBuilder();
         static StringBuilder MicroResult = new StringBuilder();
@@ -342,8 +342,8 @@ namespace AzureMVC.Controllers
         [HttpPost]
         public async Task<ActionResult> TransSpeechCut(string text)
         {
-
-            OpenAIClient client = new(new Uri("https://cshitinternopenai.openai.azure.com/"), new AzureKeyCredential("0be4adcd512d4b09b7e44d50325f4bf9"));
+            //這裡要自己加上 endpoint、key
+            OpenAIClient client = new(new Uri(""), new AzureKeyCredential(""));
             var chatCompletionsOptions = new ChatCompletionsOptions()
             {
                 Messages =
@@ -366,7 +366,7 @@ namespace AzureMVC.Controllers
             {
                 TrascribeTxt.Clear();
                 Response<StreamingChatCompletions> response = await client.GetChatCompletionsStreamingAsync(
-                             deploymentOrModelName: "CSHITIntern", chatCompletionsOptions);
+                             deploymentOrModelName: "", chatCompletionsOptions);       //這裡要自己加上engine在""裡
 
                 StreamingChatCompletions streamingChatCompletions = response.Value;
 
@@ -399,8 +399,8 @@ namespace AzureMVC.Controllers
         [HttpPost]
         public async Task<ActionResult> TranscribeSpeech(string text)
         {
-
-            OpenAIClient client = new(new Uri("https://cshitinternopenai.openai.azure.com/"), new AzureKeyCredential("0be4adcd512d4b09b7e44d50325f4bf9"));
+            //這裡要自己加上 endpoint、key
+            OpenAIClient client = new(new Uri(""), new AzureKeyCredential(""));
             var chatCompletionsOptions = new ChatCompletionsOptions()
             {
                 Messages =
@@ -423,7 +423,7 @@ namespace AzureMVC.Controllers
             {
                 TrascribeTxt.Clear();
                 Response<StreamingChatCompletions> response = await client.GetChatCompletionsStreamingAsync(
-                             deploymentOrModelName: "CSHITIntern", chatCompletionsOptions);
+                             deploymentOrModelName: "", chatCompletionsOptions); //這裡要自己加上engine在""裡
 
                 StreamingChatCompletions streamingChatCompletions = response.Value;
 

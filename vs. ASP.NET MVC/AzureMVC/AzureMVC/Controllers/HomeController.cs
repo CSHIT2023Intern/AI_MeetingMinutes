@@ -23,9 +23,9 @@ namespace AzureMVC.Controllers
         public async Task<ActionResult> Index()
         {
             var txt1="";
-            
 
-            OpenAIClient client = new(new Uri("https://cshitinternopenai.openai.azure.com/"), new AzureKeyCredential("0be4adcd512d4b09b7e44d50325f4bf9"));
+            //endpoint、key要自己加
+            OpenAIClient client = new(new Uri(""), new AzureKeyCredential(""));
             string txt = "詞 曲   李 宗 盛 詞 曲   李 宗 盛 故 事 情 裡 的 世 界 越 來 越 遠 的 道 別 雨 傘 上 下 了 雨 殘 影 還 是 黑 夜 我 用 眼 光 去 追 緊 聽 著 你 的 雷 在 車 窗 外 面 徘 徊 是 我 錯 失 的 機 會 雨 傘 的 方 位 跟 我 從 前 的 爭 執 接 近 你 腳 踏 後 腿 你 的 崩 潰 在 窗 外 淋 水 我 一 日 閒 眠 離 開 有 你 的 季 節 你 說 你 後 面 也 無 法 再 相 信 風 在 山 流 去 過 往 的 畫 面 卻 都 是 我 不 配 心 是 藏 匪 我 想 你 幾 位 你 為 我 故 事 情 裡 的 世 界 越 來 越 遠 的 道 別 雨 轉 身 向 北 成 年 還 是 很 美 我 用 眼 光 去 追 緊 聽 著 你 的 雷 在 車 窗 外 面 徘 徊 我 後 面 是 我 錯 失 的 機 會 雨 傘 的 方 位 跟 我 從 前 的 爭 執 接 近 你 腳 踏 後 腿 你 的 崩 潰 在 窗 外 淋 水 我 一 日 閒 眠 離 開 有 你 的 季 節 你 說 你 後 面 也 無 法 再 相 信 風 在 山 流 去 過 往 的 畫 面 卻 都 是 我 不 配 心 是 藏 匪 我 想 你 幾 位 我 一 日 閒 眠 離 開 有 你 的 季 節 風 向 旁 走 位 揮 轉 著 我 的 後 悔 我 這 束 長 眼 卻 甩 不 掉 靜 靜 的 睡 在 山 邊 心 是 藏 匪 我 想 你 幾 位 前 進 龍 壁 就 讓 初 次 安 靜 Z i t h e r   H a r p";
             var chatCompletionsOptions = new ChatCompletionsOptions()
             {
@@ -42,12 +42,12 @@ namespace AzureMVC.Controllers
                 },
                 MaxTokens = 700 //MaxTokens = 500000 這樣在返回的結果中，生成的文本將會有最多500000個標記
             };
-            string deployment = "CSHITIntern"; //engine
+            string deployment = ""; //engine
             try
             {
 
                 Response<StreamingChatCompletions> response = await client.GetChatCompletionsStreamingAsync(
-                             deploymentOrModelName: "CSHITIntern", chatCompletionsOptions);
+                             deploymentOrModelName: "", chatCompletionsOptions); //""要加engine
 
                 StreamingChatCompletions streamingChatCompletions = response.Value;
 
@@ -123,9 +123,9 @@ namespace AzureMVC.Controllers
             return View();
         }
 
-
-        static string speechKey = Environment.GetEnvironmentVariable("c9d3e6d440214af3bc175d4c31809a44");
-        static string speechRegion = Environment.GetEnvironmentVariable("eastasia");
+        //這裡要自己加
+        static string speechKey = Environment.GetEnvironmentVariable("");
+        static string speechRegion = Environment.GetEnvironmentVariable("");
 
 
         [HttpPost]
