@@ -15,7 +15,7 @@ def summary(txt):
     openai.api_type = "azure"
     openai.api_base = "https://cshitinternopenai.openai.azure.com/"
     openai.api_version = "2023-03-15-preview"
-    openai.api_key = "0be4adcd512d4b09b7e44d50325f4bf9"
+    openai.api_key = ""
 
     response = openai.ChatCompletion.create(
         engine="CSHITIntern",
