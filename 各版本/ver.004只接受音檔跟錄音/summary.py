@@ -10,7 +10,7 @@ def generate_summary(input_doc_path, output_dir):
     openai.api_type = "azure"
     openai.api_base = "https://cshitinternopenai.openai.azure.com/"
     openai.api_version = "2023-03-15-preview"
-    openai.api_key = "0be4adcd512d4b09b7e44d50325f4bf9"
+    openai.api_key = ""
 
     # 輸入檔案
     doc = docx.Document(input_doc_path)
