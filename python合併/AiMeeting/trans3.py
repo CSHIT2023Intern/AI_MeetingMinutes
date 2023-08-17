@@ -10,8 +10,8 @@ OutPutPath = 'txt'
 # 將日期時間變成字串
 todayStr = datetime.now().strftime("%Y-%m-%d__%H-%M-%S")
 
-SPEECH_KEY = "c9d3e6d440214af3bc175d4c31809a44"
-SPEECH_REGION = "eastasia"
+SPEECH_KEY = ""
+SPEECH_REGION = ""
 
 
 def trans(selected_file):
