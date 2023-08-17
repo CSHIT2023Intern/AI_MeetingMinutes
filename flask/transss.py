@@ -3,8 +3,8 @@ import os
 import azure.cognitiveservices.speech as speechsdk
 from docx import Document
 
-SPEECH_KEY = "c9d3e6d440214af3bc175d4c31809a44"
-SPEECH_REGION = "eastasia"
+SPEECH_KEY = ""
+SPEECH_REGION = ""
 
 
 def transcribe_audio(input_file, Wordfile):
