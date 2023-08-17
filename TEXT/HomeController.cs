@@ -34,7 +34,7 @@ namespace WebApplication2.Controllers
         public async Task<ActionResult> RecognizeSpeech()
         {
             //設定
-            var config = SpeechConfig.FromSubscription("c9d3e6d440214af3bc175d4c31809a44", "eastasia");
+            var config = SpeechConfig.FromSubscription("", "");
             config.SpeechRecognitionLanguage = "zh-TW";
 
             //檔案輸入          
