@@ -8,7 +8,7 @@ def generate_summary(input_doc_path, output_dir):
     openai.api_type = "azure"
     openai.api_base = "https://cshitinternopenai.openai.azure.com/"
     openai.api_version = "2023-03-15-preview"
-    openai.api_key = "0be4adcd512d4b09b7e44d50325f4bf9"
+    openai.api_key = ""
 
     # 读取输入文档
     # input_doc_path = "C:\\users\\user\\Desktop\\112\\20230707-1\\音檔轉文字\\OutputWord\\output.docx"  # 替换为实际的输入文档路径
