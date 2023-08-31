@@ -1,0 +1,107 @@
+﻿<!--方案的名稱，使用方案裡model資料夾-->
+@using azureMVC.Models
+@*使用Model的list涵式*@
+@model List<FileModel>
+@{
+    ViewBag.Title = "Upload";
+}
+
+<h2>語音檔上傳</h2>
+
+<div>
+    @using (Html.BeginForm("Upload", "Upload", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <label for="audioFile" class="btn btn-outline-success">
+            @Html.TextBox("audioFile", "", new { id = "filename", type = "file", accept = ".wav,.mp3,.m4a", @class = "form-control-file", onchange = "changefile()" })
+        </label><br />
+        <p></p>
+        <input type="submit" id="uploadFile" value="上傳檔案" class="btn btn-primary" disabled="disabled" />
+        @ViewBag.mess
+    }
+</div>
+
+<h2>檔案</h2>
+
+<table border="1" id="mytable" class="table">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col">編號</th>
+            <th scope="col">檔名</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            int i = 1;
+            foreach (var file in Model)
+            {
+                <tr>
+                    <td scope="row">@i</td>
+                    <td id="a">@file.Filename</td>
+                    <td><button class="gotranscribe" data-filename="@file.Filename">轉換</button></td>
+                </tr>
+                i++;
+            }
+        }
+    </tbody>
+    @*}*@
+</table>
+<div id="resultArea"></div>
+<figure>
+    <img id="imggif" src="~/VideoGif/Loading.gif" />
+</figure>
+
+
+<script>
+        //上傳按鈕的開關
+        function changefile() {
+            var val = document.getElementById('filename').value;//這裡要注意不能寫成 vlaue()
+            var filevlaue = val;
+            console.log(filevlaue)
+            if (filevlaue !== " ") {
+                document.getElementById("uploadFile").disabled = false;//取消禁用(這裡要注意disabled的拼法)
+            }
+            else {
+                document.getElementById("uploadFile").disabled = true; //禁用
+            }
+        }
+        //轉換文字
+        $(document).ready(function () {
+            $('#imggif').hide();
+                var a = $('#filename').val();
+                console.log(a);
+                $('.gotranscribe').each(function () {
+                    $(this).click(function () {
+                        var filename = $(this).data("filename");
+                        $('#resultArea').empty();
+                        turn(filename);
+                    })
+                });
+        });
+        //接收上傳檔案到後端
+        function turn(ffname) {
+            $('#imggif').show();
+            $('#resultArea').empty();
+            console.log(ffname);
+            $.ajax({
+                url: "/Upload/Translate",
+                type: 'POST',
+                data: JSON.stringify({
+                    filename: ffname
+                }),
+                contentType: "application/json",
+                dataType: "text",
+                success: function (result) {
+                    $('#resultArea').html("語音轉文字:<br/>" + result);
+                    $('#imggif').hide();
+                    console.log("success");
+                    console.log(result)
+                },
+                error: function (result) {
+                    console.log("error");
+                }
+            })
+        };
+</script>
+
+

@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>*@
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/blog/">
+
+    <link rel="stylesheet" type="text/css" href="~/Content/Site.css">
+    <script src="~/Scripts/jquery3.7.1.js"></script>
+    <!-- Custom styles for this template -->
+    <link href="https://fonts.googleapis.com/css?family=Playfair&#43;Display:700,900&amp;display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="navbar">
+        <div class="container">
+            <div class="navbar-header">
+                @Html.ActionLink("首頁", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="container.body-content">
+
+        <ul>
+            <li><button onclick="window.location.href='@Url.Action("Record", "Record")'">錄音頁面</button></li>
+            <li><button onclick="window.location.href='@Url.Action("Upload", "Upload")'">上傳頁面</button></li>
+            <li><button onclick="window.location.href='@Url.Action("Transcribe", "Transcribe")'">會議轉錄頁面</button></li>
+            <li><button onclick="window.location.href='@Url.Action("Sample", "Sample")'">樣本頁面</button></li>
+        </ul>
+
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - 語音轉文字</p>
+        </footer>
+    </div>
+</body>
+</html>

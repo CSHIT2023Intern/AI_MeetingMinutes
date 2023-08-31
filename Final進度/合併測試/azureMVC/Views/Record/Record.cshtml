@@ -1,0 +1,56 @@
+﻿
+@{
+    ViewBag.Title = "Record";
+}
+
+<h2>錄音頁面</h2>
+<p>
+    @ViewBag.text1
+</p>
+<div id="choose">
+    <button type="submit" class="btn btn-secondary" id="rec1">開始錄音</button>
+    <button type="submit" class="btn btn-secondary" id="rec2" disabled="disabled">停止錄音</button>
+</div>
+<div id="resultArea"></div>
+<p>
+    @ViewBag.text
+</p>
+<script>
+    $(document).ready(function () {
+        $('#rec1').click(function () {
+            document.getElementById('rec2').disabled = false;
+            $.ajax({
+                url: '/Record/StartRecording',
+                type: "POST",
+                contentType: "application/json",
+                dataType: "json",
+                success: function (result) {
+                    $('#resultArea').html("語音轉文字:<br/>" + result.message);
+                    console.log("success");
+                },
+                error: function (result) {
+                    console.log(result);
+                    console.log("error");
+                }
+            })
+        })
+
+        $('#rec2').click(function () {
+            document.getElementById('rec2').disabled = true;
+            $.ajax({
+                url: '/Record/StopRecording',
+                type: "POST",
+                contentType: "application/json",
+                dataType: "text",
+                success: function (result) {
+                    $('#resultArea').html("語音轉文字:<br/>" + result);
+                    console.log("success");
+                },
+                error: function (result) {
+                    console.log(result);
+                    console.log("error");
+                }
+            })
+        })
+    });
+</script>

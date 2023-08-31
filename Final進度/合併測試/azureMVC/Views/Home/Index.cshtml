@@ -1,0 +1,16 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+
+
+<h2 class="page-title">首頁</h2>
+
+
+<div class="button-container">
+    <button onclick="window.location.href='@Url.Action("Record", "Record")'">錄音頁面</button>
+    <button onclick="window.location.href='@Url.Action("Upload", "Upload")'">上傳頁面</button>
+    <button onclick="window.location.href='@Url.Action("Transcribe", "Transcribe")'">會議轉錄頁面</button>
+    <button onclick="window.location.href='@Url.Action("Sample", "Sample")'">樣本頁面</button>
+</div>

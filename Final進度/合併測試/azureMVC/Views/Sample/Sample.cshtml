@@ -1,0 +1,46 @@
+﻿<!--方案的名稱，使用方案裡model資料夾-->
+@using azureMVC.Models
+@*使用Model的list涵式*@
+@model List<FileModel>
+@{
+    ViewBag.Title = "Sample";
+}
+
+<h2>語者樣本上傳</h2>
+
+<div>
+    @using (Html.BeginForm("Sample", "Sample", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <label for="audioFile" class="btn btn-outline-success">
+            @Html.TextBox("audioFile", "", new { id = "filename", type = "file", accept = ".wav,.mp3,.m4a", @class = "form-control-file", onchange = "changefile()" })
+        </label><br />
+        <p></p>
+        <input type="submit" id="uploadFile" value="上傳" />
+        @ViewBag.mess
+    }
+    <h3>已上傳語音樣本：</h3>
+    <table border="1" id="mytable" class="table">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">編號</th>
+                <th scope="col">檔名</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                int i = 1;
+                foreach (var file in Model)
+                {
+                    <tr>
+                        <td scope="row">@i</td>
+                        <td id="a">@file.Filename</td>
+                    </tr>
+                    i++;
+                }
+            }
+        </tbody>
+        @*}*@
+    </table>
+</div>
+
