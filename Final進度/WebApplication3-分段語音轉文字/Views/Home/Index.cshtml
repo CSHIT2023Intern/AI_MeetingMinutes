@@ -1,0 +1,38 @@
+﻿@{
+    Layout = null; // 如果您不想使用默认的布局，请将此行注释掉
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Speech Recognition Demo</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Speech Recognition Demo</h1>
+
+    <button id="startRecognition">Start Recognition</button>
+    <div id="loadingIndicator" style="display: none;">Loading...</div>
+    <div id="recognizedText"></div>
+
+    <script>
+        $(document).ready(function () {
+            $("#startRecognition").click(function () {
+                $("#loadingIndicator").show();
+                $("#recognizedText").empty();
+
+                $.post("@Url.Action("RecognizeSpeech", "Home")") // Call the RecognizeSpeech action
+                    .done(function (data) {
+                        $("#recognizedText").text(data); // Display recognized text
+                    })
+                    .fail(function () {
+                        // Handle failure
+                    })
+                    .always(function () {
+                        $("#loadingIndicator").hide();
+                    });
+            });
+        });
+    </script>
+</body>
+</html>

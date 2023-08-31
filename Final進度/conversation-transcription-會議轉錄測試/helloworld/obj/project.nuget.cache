@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "2BRCLW+6fP4bB6kzouBRbIAiU6WrftTANFGGIw+BgsX5GkjMjIjcLAmsyQ6xrxZXyFeb1oh6tTpmvQY0+GMung==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Administrator\\Desktop\\cognitive-services-speech-sdk-master1\\quickstart\\csharp\\dotnet\\conversation-transcription\\helloworld\\helloworld.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.cognitiveservices.speech\\1.30.0\\microsoft.cognitiveservices.speech.1.30.0.nupkg.sha512",
+    "C:\\Users\\Administrator\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512"
+  ],
+  "logs": []
+}
