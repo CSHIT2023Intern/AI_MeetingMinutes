@@ -1,0 +1,252 @@
+﻿<!--方案的名稱，使用方案裡model資料夾-->
+@using AzureMVC.Models
+@*使用Model的list涵式*@
+@model List<FileModel>
+@{
+    Layout = null;
+    ViewBag.Title = "SpeakerTranscribe";
+}
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <title>多人會議轉譯</title>
+    <style>
+        body {
+            background-color: #E2DED0;
+        }
+        .gotranscribe {
+            background-color: transparent;
+            text-decoration: underline;
+            cursor: pointer;
+            color: #868B8E;
+            background: none;
+            border: unset;
+        }
+
+        #title h1 {
+            margin-top: 100px;
+            margin-left: 40px;
+            font-weight: 800;
+            line-height: 1.3;
+            font-size: 2.5rem;
+        }
+
+        #title span {
+            margin-top: 100px;
+            margin-left: 40px;
+            line-height: 1.6;
+        }
+
+        #upload {
+            margin-top: 50px;
+            margin-left: 40px;
+            padding-top: 10px;
+            position: relative;
+            display: inline-block;
+        }
+
+        #detail {
+            margin-left: 40px;
+            margin-top: 30px;
+        }
+
+        #mytable {
+            border-left: none;
+        }
+
+        #imggif {
+            width: 150px;
+            margin-top: -10px
+        }
+        .nav-link {
+            color: white;
+            background-color: initial;
+            text-decoration: none;
+            transition: color 0.3s, background-color 0.3s;
+            margin-right: 30px;
+        }
+
+        .nav-link:hover {
+            color: black;
+            background-color: white;
+        }
+
+        .navbar-nav .nav-item .active {
+            color: black;
+            background-color: white;
+        }
+
+        .navbar-nav {
+            margin: 0;
+            padding: 0;
+            list-style: none; /* 去除列表的默认样式 */
+        }
+
+        .nav-item {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <nav class="navbar navbar-expand-lg  navbar-dark  fixed-top" style="background-color: #647C90 ">
+            <img src="~/img/logo.png" width="200" height="45" />
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarScroll">
+                <ul class="navbar-nav me-auto my-2 my-lg-0" style="--bs-scroll-height: 100px;">
+                    <li class="nav-item">
+                        <a class="nav-link " aria-current="page" href="Index">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " aria-current="page" href="UploadFile">語音檔轉文字</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " aria-current="page" href="RecordFile">麥克風轉錄</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active fw-bold fs-5" aria-current="page" href="SpeakerTranscribe">多人會議轉譯</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="UploadPersonal_AudioFile">個人音檔</a>
+                    </li>
+                </ul>
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
+        </nav>
+    </div>
+    <div style="margin-top:80px">
+        <div id="title">
+            <h1>多人會議轉譯</h1>
+            <span style="color: rgba(17,23,29,.6);">功能:上傳八聲道對話檔，進行轉譯並生成摘要</span>
+        </div>
+        <div id="upload">
+            <h2>語音檔上傳</h2>
+            @*方法名稱   Controller名稱*@
+            @using (Html.BeginForm("SpeakerTranscribe", "Upload", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <label for="audioFile" class="btn btn-outline-success">
+                    @Html.TextBox("audioFile", "", new { id = "filename", type = "file", accept = ".wav,.mp3,.m4a", @class = "form-control-file", onchange = "changefile()" })
+                </label><br />
+                <p></p>
+                <input type="submit" id="uploadFile" value="上傳檔案" class="btn btn-primary" disabled="disabled" />
+                @ViewBag.mess
+            }
+        </div>
+        <div id="detail">
+            <h2>檔案</h2>
+            <table border="1" id="mytable" class="table">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">編號</th>
+                        <th scope="col">檔名</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                @*轉換       呼叫方法名         回傳的值*@
+                @*@using (Html.BeginForm("Translate", "Upload", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {*@
+                <tbody>
+                    @if (Model != null && Model.Count > 0)
+                    {
+                        int i = 1;
+                        @*@Html.AntiForgeryToken()*@
+                        foreach (FileModel file in Model)
+                        {
+                            <tr>
+                                <td scope="row">@i</td>
+                                <td id="a">@file.Filename</td>
+                                <td><button class="gotranscribe" data-filename="@file.Filename">轉換</button></td>
+                                @*下面這兩個寫法不行*@
+                                @*<td><a href="@Url.Action("Translate", "Upload", new { filename = file.Filename })">轉換</a></td>
+                                <td>@Html.ActionLink("Upload", "Translate", new { filename = file.Filename })</td>*@
+                            </tr>
+                            i++;
+
+                        }
+                    }
+                </tbody>
+                @*}*@
+            </table>
+            <figure>
+                <img id="imggif" src="~/VideoGif/Loading.gif" />
+            </figure>
+        </div>
+        <div id="resultArea"></div>
+    </div>
+    <script>
+        function changefile() {
+            var val = document.getElementById('filename').value;//這裡要注意不能寫成 vlaue()
+            var filevlaue = val;
+            console.log(filevlaue)
+            if (filevlaue !== " ") {
+                document.getElementById("uploadFile").disabled = false;//取消禁用(這裡要注意disabled的拼法)
+            }
+            else {
+                document.getElementById("uploadFile").disabled = true; //禁用
+            }
+        }
+        //document.getElementById("filename").addEventListener("load", function () {
+        //    var filevlaue = this.value;
+        //    console.log(filevlaue)
+        //    if (filevlaue.trim() !== "") {
+        //        document.getElementById("uploadFile").disable = false;
+        //    }
+        //    else {
+        //        document.getElementById("uploadFile").disable = true;
+        //    }
+        //})
+        $(document).ready(function () {
+            $('#imggif').hide();
+            var a = $('#filename').val();
+            console.log(a);
+            $('.gotranscribe').each(function () {
+                $(this).click(function () {
+                    var filename = $(this).data("filename");
+                    $('#resultArea').empty();
+                    turn(filename);
+                })
+            });
+        });
+        function turn(ffname) {
+            $('#imggif').show();
+            $('#resultArea').empty();
+            console.log(ffname);
+            $.ajax({
+                url: "/Upload/TranscribeConversationsAsync",
+                type: 'POST',
+                data: JSON.stringify({
+                    filename: ffname
+                }),
+                contentType: "application/json",
+                dataType: "text",
+                success: function (result) {
+                    $('#resultArea').html("語音轉文字:<br/>" + result);
+                    $('#imggif').hide();
+                    console.log("success");
+                    console.log(result)
+                },
+                error: function (result) {
+                    console.log("error");
+                }
+            })
+        };
+    </script>
+</body>
+</html>
